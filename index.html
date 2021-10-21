@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Pathfinder Visualizer</title>
+  <meta name="description" content="A pathfinder algorithm visualizer">
+  <meta name="author" content="DaanvB">
+
+  <meta property="og:title" content="A Basic HTML5 Template">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:description" content="A pathfinder algorithm visualizer">
+  <meta property="og:image" content="image.png">
+
+  <link rel="stylesheet" href="Style.css">
+  <script src="Node_class.js"></script>
+  <script src="Grid_class.js"></script>
+  <script src="Helper_methods.js"></script>
+  <script src="Algorithms.js"></script>
+</head>
+
+<body onload="createGrid()" onmouseup="mouseUpHandler()">
+  <div class="header">
+    <button type="button" class="header-btn" onclick="Dijkstra(grid)">start</button>
+    <button type="button" class="header-btn">end</button>
+    <button type="button" class="header-btn" onclick="demo()">test</button>
+    <button type="button" class="header-btn" onclick="addWeights()">add weights</button>
+  </div>
+  <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+    <div class="hero">
+        <div id='grid'>
+            
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

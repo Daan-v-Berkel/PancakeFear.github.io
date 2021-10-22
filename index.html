@@ -23,14 +23,22 @@
 </head>
 
 <body onload="createGrid()" onmouseup="mouseUpHandler()">
-  <div class="header">
-    <button type="button" class="header-btn" onclick="Dijkstra(grid)">start</button>
-    <button type="button" class="header-btn">end</button>
-    <button type="button" class="header-btn" onclick="demo()">test</button>
-    <button type="button" class="header-btn" onclick="addWeights()">add weights</button>
-  </div>
-  <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+    <div class="header">
+      <button type="button" class="header-btn" onclick="Dijkstra(grid)">start</button>
+      <!--<button type="button" class="header-btn">end</button>-->
+      <!--<button type="button" class="header-btn" onclick="demo()">test</button>-->
+      <!--<button type="button" class="header-btn" onclick="addWeights()">add weights</button>-->
+    </div>
+    <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     <div class="hero">
+      <div class="explanations">
+        <div name="begin" class="explanation startnode"></div><label for="begin">begin</label>
+        <div name="dest" class="explanation endnode"></div><label for="dest">destination</label>
+        <div name="node" class="explanation node"></div><label for="node">normal node</label>
+        <div name="wall" class="explanation node wall"></div><label for="wall">wall (can not pass)</label>
+        <div name="weight" class="explanation node weighted"></div><label for="weight">weigted node (preffered to avoid)</label>
+        <div name="visit" class="explanation node visited"></div><label for="visit">already visited node</label>
+      </div>
         <div id='grid'>
             
         </div>

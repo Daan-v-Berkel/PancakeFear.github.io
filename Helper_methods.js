@@ -156,7 +156,6 @@ function sleep(ms) {
     if (leftNeighbour){
         neighbours.push(leftNeighbour);
     }
-    console.log(neighbours);
     return neighbours;
 }
 
@@ -200,8 +199,9 @@ async function drawShortestPath(endNode){
 }
 
 function addWeights(){
-    var weightedNodes = document.getElementsByClassName('weighted');
-    if (weightedNodes.item(0)){
+    var gridDiv = document.getElementById('grid');
+    var weightedNodes = gridDiv.getElementsByClassName('weighted');
+    if (weightedNodes.length > 0){
         for (var i in weightedNodes){
             currentElement = weightedNodes.item(i);
             currentId = currentElement.id;

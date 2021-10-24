@@ -1,59 +1,3 @@
-// class GridNode {
-//   // Base class for nodes, each representing 'backend' of the visual block
-//   constructor(id, status){
-//     this.id = id;
-//     this.status = status;
-//     this.previousNode = null;
-//     this.visited = false;
-//     this.path = null;
-//     this.direction = null;
-//     this.storedDirection = null;
-//     this.distance = Infinity;
-//     this.totalDistance = Infinity;
-//     this.heuristicDistance = null;
-//     this.weight = 0;
-//     this.relatesToObject = false;
-//     this.overwriteObjectRelation = false;
-//   }
-// }
-
-// class Grid {
-//   // Base class for the grid, as 'backend' to the visual grid.
-//   constructor(col, rows){
-//     this.columns = col;
-//     this.rows = rows;
-//     this.start = null;
-//     this.end = null;
-//     this.nodes = [];
-//     this.mousePressed = false;
-//     this.pressedNodeStatus = null;
-//     this.currentNode = null;
-//     this.previousNode = null;
-//     this.enteredSpecialNode = false;
-//   }
-// // gets a node from the created nodes in the grid
-//   getNode(id){
-//     var coordinates = id.split(',');
-//     var row = parseInt(coordinates[0]);
-//     var col = parseInt(coordinates[1]);
-//     return this.nodes[row][col];
-//   }
-// // resets a node to its original state, visually this means it will become empty or white.
-//   resetNode(n){
-//     n.status = 'node';
-//     n.previousNode = null;
-//     n.path = null;
-//     n.visited = false;
-//     n.direction = null;
-//     n.storedDirection = null;
-//     n.distance = Infinity;
-//     n.totalDistance = Infinity;
-//     n.heuristicDistance = null;
-//     n.weight = 0;
-//     n.relatesToObject = false;
-//     n.overwriteObjectRelation = false;
-//   }
-// }
 // base variables
 const startNode = [0, 2]
 const endNode = [0, 10]
@@ -85,6 +29,7 @@ function createGrid(){// creates the grid (on loading of the page) both visual(h
         var gn = new GridNode(newId, 'node')
       }
       //add mousehandlers to each node.
+      
       gridNode.onmouseover = mouseEnterHandler;
       gridNode.onmousedown = mouseDownHandler;
       gridNode.oncontextmenu = rightMouseHandler;
@@ -103,10 +48,17 @@ function mouseDownHandler(e){
   var id = e.target.id;
   grid.currentNode = grid.getNode(id);
   if (e.which === 3 && !(grid.currentNode.status.includes('start') || grid.currentNode.status.includes('end'))){
-    grid.pressedNodeStatus = 'node weighted';
-    grid.currentNode.overwriteStatus('weighted');
-    e.target.className = grid.currentNode.status;
-    return;
+    if (grid.currentNode.status.includes('weighted')){
+      grid.pressedNodeStatus = 'node';
+      grid.currentNode.status = 'node';
+      e.target.className = grid.currentNode.status;
+      return;
+    }else{
+      grid.pressedNodeStatus = 'node weighted';
+      grid.currentNode.overwriteStatus('weighted');
+      e.target.className = grid.currentNode.status;
+      return;
+    }
   }
   grid.pressedNodeStatus = setMouseStatus(e);
   if (grid.pressedNodeStatus === 'endnode' || grid.pressedNodeStatus === 'startnode'){
@@ -138,8 +90,9 @@ function mouseUpHandler(e){
   grid.currentNode = null;
   grid.previousNode = null;
 
-  startPosId = document.getElementsByClassName('startnode')[0].id;
-  endPosId = document.getElementsByClassName('endnode')[0].id;
+  var gridDiv = document.getElementById('grid');
+  startPosId = gridDiv.getElementsByClassName('startnode')[0].id;
+  endPosId = gridDiv.getElementsByClassName('endnode')[0].id;
   grid.start = grid.getNode(startPosId);
   grid.end = grid.getNode(endPosId);
 }

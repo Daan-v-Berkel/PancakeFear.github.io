@@ -217,3 +217,22 @@ function PrepareRerun(grid){
         var currentNode = nodesToClear[i];
     }
 }
+
+function handleWaypoints(){
+    var gridDiv = document.getElementById('grid');
+    var One = gridDiv.getElementsByClassName('one');
+    if (One.length > 0){
+        var idOne = One[0].id;
+        grid.waypoints.splice(0, 1, grid.getNode(idOne));
+    }
+    var Two = gridDiv.getElementsByClassName('two');
+    if (Two.length > 0){
+        var idTwo = Two[0].id;
+        grid.waypoints.splice(1, 1, grid.getNode(idTwo));
+    }
+    var Three = gridDiv.getElementsByClassName('three');
+    if (Three.length > 0){
+        var idThree = Three[0].id;
+        grid.waypoints.splice(2, 1, grid.getNode(idThree));
+    }
+}

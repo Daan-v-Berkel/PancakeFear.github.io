@@ -6,6 +6,7 @@ class Grid {
       this.start = null;
       this.end = null;
       this.nodes = [];
+      this.waypoints = [];
       this.mousePressed = false;
       this.pressedNodeStatus = null;
       this.currentNode = null;
@@ -48,5 +49,69 @@ class Grid {
         }
       }
       return nodesFound;
+    }
+
+    addWaypoint(wpNode, replaceIndex=null){
+      var lostWP = null;
+      var indexToString = null;
+      if (wpNode && !replaceIndex){
+        this.waypoints.push(wpNode)
+      }else{
+        var i = this.waypoints.indexOf(wpNode);
+        this.waypoints.splice(i, 1, wpNode)
+      }
+      if (this.waypoints.length > 3){
+        lostWP = this.waypoints.shift();
+        lostWP.status = 'node';
+      }
+      for (var i in this.waypoints){
+        switch(i){
+          case '0':
+            indexToString = 'one';
+            this.waypoints[i].status = `node waypoint one`;
+            break;
+          case '1':
+            indexToString = 'two';
+            this.waypoints[i].status = `node waypoint two`;
+            break;
+          case '2':
+            indexToString = 'three';
+            this.waypoints[i].status = `node waypoint three`;
+            break;
+          default:
+            console.log(i);
+        }
+        //this.waypoints[i].status = `node waypoint ${indexToString}`;
+      }
+      //console.log(this.waypoints);
+      if(lostWP){return lostWP.id;}
+    }
+
+    removeWaypoint(wpNode){
+      var index = this.waypoints.indexOf(wpNode);
+      var nodeToRemove = this.waypoints[index];
+      var indexToString = null;
+      this.waypoints.splice(index, 1);
+      nodeToRemove.status = 'node';
+      for (var i in this.waypoints){
+        switch(i){
+          case '0':
+            indexToString = 'one';
+            this.waypoints[i].status = `node waypoint one`;
+            break;
+          case '1':
+            indexToString = 'two';
+            this.waypoints[i].status = `node waypoint two`;
+            break;
+          case '2':
+            indexToString = 'three';
+            this.waypoints[i].status = `node waypoint three`;
+            break;
+          default:
+            console.log(i);
+        }
+        //this.waypoints[i].status = `node waypoint ${indexToString}`;
+      }
+      //return nodeToRemove.id;
     }
   }

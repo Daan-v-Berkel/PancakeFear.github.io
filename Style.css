@@ -97,6 +97,27 @@ body{
     cursor: pointer;
   }
 
+  .waypoint.one{
+    background: no-repeat url('images/one.png') rgb(235, 113, 0);
+    background-size: 16px 16px;
+    background-position-x: center;
+    background-position-y: center;
+  }
+
+  .waypoint.two{
+    background: no-repeat url('images/two.png') rgb(235, 113, 0);
+    background-size: 16px 16px;
+    background-position-x: center;
+    background-position-y: center;
+  }
+
+  .waypoint.three{
+    background: no-repeat url('images/three.png') rgb(235, 113, 0);
+    background-size: 16px 16px;
+    background-position-x: center;
+    background-position-y: center;
+  }
+
   .header {
     height: 80px;
     width: 100%;

@@ -43,11 +43,39 @@ function createGrid(){// creates the grid (on loading of the page) both visual(h
 }
 
 function mouseDownHandler(e){
-  //e.preventDefault();
+  e.preventDefault();
   grid.mousePressed = true;
   var id = e.target.id;
   grid.currentNode = grid.getNode(id);
-  if (e.which === 3 && !(grid.currentNode.status.includes('start') || grid.currentNode.status.includes('end'))){
+  grid.pressedNodeStatus = setMouseStatus(e);
+  if (e.which === 2){
+    var waypoints = grid.waypoints;
+    if (!grid.pressedNodeStatus.includes('waypoint')){
+      var idToRemove = grid.addWaypoint(grid.currentNode);
+      if (idToRemove){
+        document.getElementById(idToRemove).className = 'node';
+      }
+      //set all divs to right class
+      for (var i in grid.waypoints){
+        var node = grid.waypoints[i];
+        var div = document.getElementById(node.id);
+        div.className = node.status;
+      }
+      e.target.className = grid.currentNode.status;
+      return;
+    }else{
+      grid.removeWaypoint(grid.currentNode);
+      for (var i in grid.waypoints){
+        var node = grid.waypoints[i];
+        var div = document.getElementById(node.id);
+        div.className = node.status;
+      }
+      grid.currentNode.status = 'node';
+      e.target.className = 'node';
+      return;
+    }
+  }
+  if (e.which === 3 && !(grid.currentNode.status.includes('start') || grid.currentNode.status.includes('end') || grid.currentNode.status.includes('waypoint'))){
     if (grid.currentNode.status.includes('weighted')){
       grid.pressedNodeStatus = 'node';
       grid.currentNode.status = 'node';
@@ -60,8 +88,7 @@ function mouseDownHandler(e){
       return;
     }
   }
-  grid.pressedNodeStatus = setMouseStatus(e);
-  if (grid.pressedNodeStatus === 'endnode' || grid.pressedNodeStatus === 'startnode'){
+  if (grid.pressedNodeStatus === 'endnode' || grid.pressedNodeStatus === 'startnode' || grid.pressedNodeStatus.includes('waypoint')){
     return;
   }else if (!grid.pressedNodeStatus.includes('wall')){
     grid.currentNode.status = 'node wall';
@@ -74,16 +101,11 @@ function mouseDownHandler(e){
 
 function rightMouseHandler(e){
   e.preventDefault();
-  //grid.mousePressed = true;
-  //var id = e.target.id;
-  //grid.currentNode = grid.getNode(id);
-  //grid.pressedNodeStatus = 'weighted';
-  //e.target.className = 'weighted';
-  //return false;
 }
 
 function mouseUpHandler(e){
   addWeights();
+  handleWaypoints();
   grid.mousePressed = false;
   grid.mouseState = null;
   grid.pressedNodeStatus = null;
@@ -99,10 +121,13 @@ function mouseUpHandler(e){
 
 function mouseEnterHandler(e){
   if (grid.mousePressed){
+    if (e.which === 2){
+      return;
+    }
     let thisElement = e.target;
     var id = e.target.id;
     var prevElement = document.getElementById(grid.currentNode.id);
-    if (!(thisElement.className.includes('start') || thisElement.className.includes('end'))){
+    if (!(thisElement.className.includes('start') || thisElement.className.includes('end') || thisElement.className.includes('waypoint'))){
       grid.previousNode = grid.currentNode;
       grid.currentNode = grid.getNode(id);
       switch (grid.pressedNodeStatus){

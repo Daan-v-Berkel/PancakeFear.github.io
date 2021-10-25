@@ -5,4 +5,4 @@ In very early development.
 
 click the link to go there.
 
-<a href="PancakeFear.github.io">PancakeFear.github.io<a>
+<a href="https://www.PancakeFear.github.io">PancakeFear.github.io<a>

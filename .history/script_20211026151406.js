@@ -43,9 +43,6 @@ function createGrid(){// creates the grid (on loading of the page) both visual(h
 }
 
 function mouseDownHandler(e){
-  if (grid.active){
-    return;
-  }
   e.preventDefault();
   grid.mousePressed = true;
   var id = e.target.id;
@@ -103,16 +100,10 @@ function mouseDownHandler(e){
 }
 
 function rightMouseHandler(e){
-  if (grid.active){
-    return;
-  }
   e.preventDefault();
 }
 
 function mouseUpHandler(e){
-  if (grid.active){
-    return;
-  }
   addWeights();
   handleWaypoints();
   grid.mousePressed = false;
@@ -129,9 +120,6 @@ function mouseUpHandler(e){
 }
 
 function mouseEnterHandler(e){
-  if (grid.active){
-    return;
-  }
   if (grid.mousePressed){
     if (e.which === 2){
       return;

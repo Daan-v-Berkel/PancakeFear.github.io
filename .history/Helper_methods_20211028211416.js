@@ -177,13 +177,16 @@ function DrawVisited(node){
 }
 
 async function drawShortestPath(endNode){
-    var current = endNode.previousNode;
-    var ls = [];
-    while(current.previousNode){
+    console.log('entered drawpath');
+  var current = endNode.previousNode;
+  var ls = [];
+  while(current.previousNode){
+    console.log('entered 1st loop');
     ls.push(current);
     current = current.previousNode;
   }
   while(ls.length){
+    console.log('entered 2st loop');
     var node = ls.pop();
     var id = node.id;
     var elem = document.getElementById(id);

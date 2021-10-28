@@ -44,5 +44,6 @@ class GridNode {
     var currentStatus = this.status;
     var newStatus = currentStatus.replace(toRemove, '');
     this.status = newStatus
+    console.log(this.status);
   }
 }

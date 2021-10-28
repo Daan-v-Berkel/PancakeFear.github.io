@@ -177,9 +177,9 @@ function DrawVisited(node){
 }
 
 async function drawShortestPath(endNode){
-    var current = endNode.previousNode;
-    var ls = [];
-    while(current.previousNode){
+  var current = endNode.previousNode;
+  var ls = [];
+  while(current.previousNode){
     ls.push(current);
     current = current.previousNode;
   }

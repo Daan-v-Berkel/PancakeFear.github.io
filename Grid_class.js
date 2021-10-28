@@ -5,6 +5,7 @@ class Grid {
       this.rows = rows;
       this.start = null;
       this.end = null;
+      this.active = false;
       this.nodes = [];
       this.waypoints = [];
       this.mousePressed = false;
@@ -23,7 +24,7 @@ class Grid {
       return this.nodes[row][col];
     }
   // resets a node to its original state, visually this means it will become empty or white.
-    resetNode(n){
+    resetNode(n){//hard reset
       n.status = 'node';
       n.previousNode = null;
       n.path = null;

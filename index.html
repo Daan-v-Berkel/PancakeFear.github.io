@@ -25,7 +25,14 @@
 <body onload="createGrid()" onmouseup="mouseUpHandler()">
     <div class="header">
       <button type="button" class="header-btn" onclick="Dijkstra(grid)">start</button>
-      <!--<button type="button" class="header-btn">end</button>-->
+      <div class="dropdown-box">
+        <button class="header-btn" id="dropdown-btn">Speed</button>
+        <div class="dropdown-content">
+          <p class="dropdown-select" onclick="SelectFromDropdown(this)">slow</p>
+          <p class="dropdown-select" onclick="SelectFromDropdown(this)">medium</p>
+          <p class="dropdown-select" onclick="SelectFromDropdown(this)">fast</p>
+        </div>
+      </div>
       <!--<button type="button" class="header-btn" onclick="demo()">test</button>-->
       <!--<button type="button" class="header-btn" onclick="addWeights()">add weights</button>-->
     </div>

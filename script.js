@@ -172,3 +172,27 @@ function setMouseStatus(targetElement){
   }
   return null;
 }
+
+function SelectFromDropdown(elem){
+  var btn = document.getElementById("dropdown-btn");
+  var speedString = elem.innerHTML;
+  var speed = null;
+
+  switch (speedString){
+    case "slow":
+      speed = 500;
+      break;
+    case "medium":
+      speed = 200;
+      break;
+    case "fast":
+      speed = 100;
+      break;
+    default:
+      speed = 100;
+      break;
+  }
+  grid.speed = speed;
+  btn.innerHTML = `Speed: ${speedString}`;
+
+}

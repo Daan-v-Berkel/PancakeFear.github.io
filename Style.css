@@ -1,166 +1,208 @@
-html{
-    height: 100%;
-    min-height: fit-content;
-    min-width: calc(1200px + 100px);
-    margin: 0;
-  }
-body{
+html {
+  height: 100%;
+  min-height: fit-content;
+  min-width: calc(1200px + 100px);
+  margin: 0;
+}
+body {
   height: calc(100% - 82px);
   min-height: 682px;
   min-width: fit-content;
   margin: 0;
 }
-  
-  .hero{
-    height: 100%;
-    padding-top: 80px;
-    background: linear-gradient( rgb(100, 211, 175), rgb(211, 200, 100));
-  }
 
+.hero {
+  height: 100%;
+  padding-top: 80px;
+  background: linear-gradient(rgb(100, 211, 175), rgb(211, 200, 100));
+}
 
-  
-  #grid{
-    height: 600px;
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 20px);
-    grid-template-rows: repeat(auto-fill, 20px);
-    box-shadow: 10px 15px 20px rgb(35, 77, 63);
-  }
-  .node{
-    height:18px;
-    width: 18px;
-    background-color: white;
-    border: 1px solid grey;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: 0.6s ease-out;
-  }
+#grid {
+  height: 600px;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 20px);
+  grid-template-rows: repeat(auto-fill, 20px);
+  box-shadow: 10px 15px 20px rgb(35, 77, 63);
+}
+.node {
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: 0.6s ease-out;
+}
 
-  .explanation{
-    height:18px;
-    width: 18px;
-    background-color: white;
-    border: 1px solid grey;
-    border-radius: 2px;
-  }
+.explanation {
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
 
-  .wall{
-    background-color: black;
-  }
+.wall {
+  background-color: black;
+}
 
-  .visited{
-    background-color: rgba(255, 255, 255, 0.199);
-  }
+.visited {
+  background-color: rgba(255, 255, 255, 0.199);
+}
 
-  
-  .weighted{
-    background: no-repeat url('images/weight.png') rgb(156, 215, 230);
-    background-size: 16px 16px;
-    background-position-x: center;
-    background-position-y: center;
-    animation-name: weights;
-    animation-duration: 0.6s;
-  }
-  
-  .shortest{
-    background-color: rgb(200, 214, 0);
-  }
+.weighted {
+  background: no-repeat url("images/weight.png") rgb(156, 215, 230);
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+  animation-name: weights;
+  animation-duration: 0.6s;
+}
 
-  @keyframes weights{
-    from {background-position-y: -20px;}
-    to { background-position-y: center;}
-  }
-  
-  .node.weighted.visited{
-    background-color: rgba(255, 255, 255, 0.199);
-  }
-  
-    .weighted.visited.shortest{
-      background-color: rgb(200, 214, 0);
-    }
+.shortest {
+  background-color: rgb(200, 214, 0);
+}
 
-  .startnode{
-    background: no-repeat url('images/start-point.png') green;
-    background-size: 16px 16px;
-    background-position-x: center;
-    background-position-y: center;
-    cursor: pointer;
+@keyframes weights {
+  from {
+    background-position-y: -20px;
   }
-  .endnode{
-    background: no-repeat url('images/finish-flag.png') red;
-    background-size: 16px 16px;
-    background-position-x: center;
-    background-position-y: center;
-    cursor: pointer;
-  }
-
-  .waypoint.one{
-    background: no-repeat url('images/one.png') rgb(235, 113, 0);
-    background-size: 16px 16px;
-    background-position-x: center;
+  to {
     background-position-y: center;
   }
+}
 
-  .waypoint.two{
-    background: no-repeat url('images/two.png') rgb(235, 113, 0);
-    background-size: 16px 16px;
-    background-position-x: center;
-    background-position-y: center;
-  }
+.node.weighted.visited {
+  background-color: rgba(255, 255, 255, 0.199);
+}
 
-  .waypoint.three{
-    background: no-repeat url('images/three.png') rgb(235, 113, 0);
-    background-size: 16px 16px;
-    background-position-x: center;
-    background-position-y: center;
-  }
+.weighted.visited.shortest {
+  background-color: rgb(200, 214, 0);
+}
 
-  .header {
-    height: 80px;
-    width: 100%;
-    background-color: rgb(100, 211, 175);
-    border-bottom: 2px solid rgb(35, 77, 63);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    column-gap: 20px;
-  }
+.startnode {
+  background: no-repeat url("images/start-point.png") green;
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+  cursor: pointer;
+}
+.endnode {
+  background: no-repeat url("images/finish-flag.png") red;
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+  cursor: pointer;
+}
 
-  .header-btn{
-    height: 40px;
-    width: 80px;
-    align-items: center;
-    background: rgba(35, 77, 63, 0.5);
-    border: none;
-    border-radius: 8px;
-    box-shadow: 5px 5px 10px grey;
-    cursor: pointer;
-  }
+.waypoint.one {
+  background: no-repeat url("images/one.png") rgb(235, 113, 0);
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+}
 
-  .explanations {
-    width: fit-content;
-    height: 25px;
-    position: relative;
-    top: -50px;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, 0);
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
-  }
-  .explanation{
-    animation: none;
-    cursor: default;
-  }
+.waypoint.two {
+  background: no-repeat url("images/two.png") rgb(235, 113, 0);
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+}
 
-  label{
-    font-weight: bold;
-    text-decoration: underline;
-    position: relative;
-    left: -15px;
-  }
+.waypoint.three {
+  background: no-repeat url("images/three.png") rgb(235, 113, 0);
+  background-size: 16px 16px;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.header {
+  height: 80px;
+  width: 100%;
+  background-color: rgb(100, 211, 175);
+  border-bottom: 2px solid rgb(35, 77, 63);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.header-btn {
+  height: 40px;
+  min-width: 80px;
+  align-items: center;
+  background: rgba(35, 77, 63, 0.5);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 5px 5px 10px grey;
+  cursor: pointer;
+}
+
+.explanations {
+  width: fit-content;
+  height: 25px;
+  position: relative;
+  top: -50px;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+.explanation {
+  animation: none;
+  cursor: default;
+}
+
+label {
+  font-weight: bold;
+  text-decoration: underline;
+  position: relative;
+  left: -15px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: rgba(68, 144, 119, 255);
+  min-width: 90px;
+  box-shadow: 5px 5px 10px grey;
+  border-radius: 0px 10px 10px 10px;
+  z-index: 1;
+}
+
+.dropdown-box:hover #dropdown-btn {
+  border-radius: 8px 8px 0px 0px;
+}
+
+.dropdown-box:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropdown-select {
+  width: 90px;
+  height: 100%;
+  margin: 0px;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-select:first-child {
+  border-radius: 0px 10px 0px 0px;
+}
+
+.dropdown-select:last-child {
+  border-radius: 0px 0px 10px 10px;
+}
+
+.dropdown-select:hover {
+  background: rgb(53, 109, 90);
+}

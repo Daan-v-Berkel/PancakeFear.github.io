@@ -194,7 +194,9 @@ async function drawShortestPath(endNode){
     //   } else {
     //     elem.className = 'weighted shortest';
     //   }
-    await sleep(grid.speed);
+    if (grid.speed){
+        await sleep(grid.speed);
+    }
   }
 }
 

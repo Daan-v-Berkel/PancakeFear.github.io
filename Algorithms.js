@@ -115,8 +115,10 @@ async function Dijkstra(grid){
         DrawVisited(n);
         priorityQueue.enqueue(n, n.totalDistance);
       }
-      await sleep(drawSpeed/10);
-      drawSpeed = drawSpeed*0.99;
+      if (drawSpeed){
+        await sleep(drawSpeed/10);
+        drawSpeed = drawSpeed*0.99;
+      }
     }
     if (priorityQueue.isEmpty()){
       console.log('failure');

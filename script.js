@@ -1,6 +1,6 @@
 // base variables
-const startNode = [0, 2]
-const endNode = [0, 10]
+const startNode = [3, 6]
+const endNode = [22, 50]
 let grid = null;
 
 function createGrid(){// creates the grid (on loading of the page) both visual(html) and backend
@@ -174,6 +174,8 @@ function setMouseStatus(targetElement){
 }
 
 function SelectFromDropdown(elem){
+  var gridElement = document.getElementById('grid');
+  var nodeElements = gridElement.getElementsByClassName('node');
   var btn = document.getElementById("dropdown-btn");
   var speedString = elem.innerHTML;
   var speed = null;
@@ -188,6 +190,9 @@ function SelectFromDropdown(elem){
     case "fast":
       speed = 100;
       break;
+    case "no delay":
+      speed = null;
+      break;
     default:
       speed = 100;
       break;
@@ -195,4 +200,33 @@ function SelectFromDropdown(elem){
   grid.speed = speed;
   btn.innerHTML = `Speed: ${speedString}`;
 
+  if (!grid.speed){
+    console.log(nodeElements);
+    for (var node of nodeElements){
+      node.style.transition = 'none';
+    }
+  }else{
+    console.log(nodeElements);
+    for (var node of nodeElements){
+      node.style.transition = '0.6s ease-out'
+    }
+  }
+}
+
+var popup = document.getElementById("popup");
+var btn = document.getElementById("popup-btn");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+  popup.style.display = "block";
+}
+
+span.onclick = function() {
+  popup.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == popup) {
+    popup.style.display = "none";
+  }
 }

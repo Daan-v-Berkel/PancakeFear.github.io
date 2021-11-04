@@ -9,13 +9,14 @@
   <meta name="description" content="A pathfinder algorithm visualizer">
   <meta name="author" content="DaanvB">
 
-  <meta property="og:title" content="A Basic HTML5 Template">
+  <meta property="og:title" content="Pathfinding visualizer">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="">
   <meta property="og:description" content="A pathfinder algorithm visualizer">
-  <meta property="og:image" content="image.png">
 
   <link rel="stylesheet" href="Style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Glory&display=swap" rel="stylesheet">
   <script src="Node_class.js"></script>
   <script src="Grid_class.js"></script>
   <script src="Helper_methods.js"></script>
@@ -31,10 +32,27 @@
           <p class="dropdown-select" onclick="SelectFromDropdown(this)">slow</p>
           <p class="dropdown-select" onclick="SelectFromDropdown(this)">medium</p>
           <p class="dropdown-select" onclick="SelectFromDropdown(this)">fast</p>
+          <p class="dropdown-select" onclick="SelectFromDropdown(this)">no delay</p>
         </div>
       </div>
+      <button id="popup-btn" class="header-btn">how to use?</button>
+        <div id="popup" class="popup-instructions">
+          <div class="popup-content">
+            <span class="close">&times;</span>
+            <h1>How does it work?</h1>
+            <p class="instruction-text">
+              <img src="images/instruction.png" id="instruction-img" width="200" height="200">
+              left click can be used to place and remove walls. <br>
+              click and drag an empty (white) node to create walls. <br>
+              click and drag a wall to create empty nodes.
+              <br><br>
+              rightclick and drag to create weights. <br><br>
+              click the middle mouse button to create up to 3 waypoints.
+            </p>
+            
+          </div>
+        </div>
       <!--<button type="button" class="header-btn" onclick="demo()">test</button>-->
-      <!--<button type="button" class="header-btn" onclick="addWeights()">add weights</button>-->
     </div>
     <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     <div class="hero">
@@ -45,6 +63,8 @@
         <div name="wall" class="explanation node wall"></div><label for="wall">wall (can not pass)</label>
         <div name="weight" class="explanation node weighted"></div><label for="weight">weigted node (preffered to avoid)</label>
         <div name="visit" class="explanation node visited"></div><label for="visit">already visited node</label>
+        <div name="waypoint" class="explanation node waypoint one"></div><label for="waypoint">waypoint</label>
+        <div name="shortest" class="explanation node shortest"></div><label for="shortest">shortest path</label>
       </div>
         <div id='grid'>
             

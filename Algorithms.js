@@ -75,7 +75,7 @@ async function Dijkstra(grid){
       var div = nodesToClear[index];
       var id = div.id;
       var node = grid.getNode(id);
-      node.removeStatus('visited');
+      //node.removeStatus('visited');
       node.softReset();
       div.className = node.status;
     }

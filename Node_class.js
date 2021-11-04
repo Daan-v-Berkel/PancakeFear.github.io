@@ -45,4 +45,9 @@ class GridNode {
     var newStatus = currentStatus.replace(toRemove, '');
     this.status = newStatus
   }
+
+  replaceStatus(oldS, newS){
+    this.removeStatus(oldS);
+    this.addStatus(newS);
+  }
 }

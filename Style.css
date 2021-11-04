@@ -32,34 +32,36 @@ body {
   box-shadow: 10px 15px 20px rgb(35, 77, 63);
 }
 
-.once {
-  /*background-image: url(images/one.png);*/
+/* .once {
   background: no-repeat url("images/dot.png");
   background-size: 4px 4px;
   background-position-x: 1px;
   background-position-y: 1px;
-}
+} */
 
 .twice {
-  background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png");
-  background-size: 4px 4px;
+  /* background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png"); */
+  filter: brightness(80%);
+  /* background-size: 4px 4px;
   background-position-x: 1px, 13px;
-  background-position-y: 1px, 1px;
+  background-position-y: 1px, 1px; */
 }
 .thrice {
-  background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png"),
-    no-repeat url("images/dot.png");
-  background-size: 4px 4px;
+  /* background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png"),
+    no-repeat url("images/dot.png"); */
+  filter: brightness(60%);
+  /* background-size: 4px 4px;
   background-position-x: 1px, 13px, 1px;
-  background-position-y: 1px, 1px, 13px;
+  background-position-y: 1px, 1px, 13px; */
 }
 
 .quadrice {
-  background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png"),
-    no-repeat url("images/dot.png"), no-repeat url("images/dot.png");
-  background-size: 4px 4px;
+  /* background: no-repeat url("images/dot.png"), no-repeat url("images/dot.png"),
+    no-repeat url("images/dot.png"), no-repeat url("images/dot.png"); */
+  filter: brightness(40%);
+  /* background-size: 4px 4px;
   background-position-x: 1px, 13px, 1px, 13px;
-  background-position-y: 1px, 1px, 13px, 13px;
+  background-position-y: 1px, 1px, 13px, 13px; */
 }
 
 .node {
@@ -85,7 +87,7 @@ body {
 }
 
 .visited {
-  background-color: rgba(255, 255, 255, 0.199);
+  background-color: rgb(151, 180, 98);
 }
 
 .weighted {

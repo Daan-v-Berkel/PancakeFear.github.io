@@ -162,17 +162,20 @@ function sleep(ms) {
 function DrawVisited(node){
     var id = node.id;
     var elem = document.getElementById(id);
-    if (node.visited && !(node.status === 'endnode')){
+    if (node.visited && !(node.status === 'endnode') && !(node.status.includes('shortest'))){
         node.addStatus('visited');
-        //console.log(node.status);
+        if (node.status.includes('once')){
+            node.replaceStatus('once', 'twice');
+        }else if (node.status.includes('twice')){
+            node.replaceStatus('twice', 'thrice');
+        }else if (node.status.includes('thrice')){
+            node.replaceStatus('thrice', 'quadrice');
+        }else{
+            node.addStatus('once');
+        }
+
         elem.className = node.status;
-    //if (node.visited && !elem.className.includes('endnode')){
-    //  if(!elem.className.includes('weighted')){
-    //      elem.classList.add('visited');
-    //    } else {
-    //        elem.className = 'weighted visited';
-    //    }
-    //}
+    
   }
 }
 
@@ -187,13 +190,23 @@ async function drawShortestPath(endNode){
     var node = ls.pop();
     var id = node.id;
     var elem = document.getElementById(id);
-    node.addStatus('shortest');
+
+    if (!(node.status.includes('endnode')) && !(node.status.includes('waypoint'))){
+        if (node.status.includes('shortest')){
+            if (node.status.includes('once')){
+                node.overwriteStatus('shortest twice');
+            }else if (node.status.includes('twice')){
+                node.overwriteStatus('shortest thrice');
+            }else if (node.status.includes('thrice')){
+                node.overwriteStatus('shortest quadrice');
+            }
+        }else {
+            node.overwriteStatus('shortest once');
+        }
+    }
+
+    //node.addStatus('shortest');
     elem.className = node.status;
-    // if(!elem.className.includes('weighted')){
-    //     elem.classList.add('shortest');
-    //   } else {
-    //     elem.className = 'weighted shortest';
-    //   }
     if (grid.speed){
         await sleep(grid.speed);
     }

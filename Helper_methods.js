@@ -175,7 +175,6 @@ function DrawVisited(node){
         }
 
         elem.className = node.status;
-    
   }
 }
 
@@ -192,7 +191,8 @@ async function drawShortestPath(endNode){
     var elem = document.getElementById(id);
 
     if (!(node.status.includes('endnode')) && !(node.status.includes('waypoint'))){
-        if (node.status.includes('shortest')){
+        console.log(node.status);
+        if (node.status.includes('shortest') && !(node.status.includes('weighted'))){
             if (node.status.includes('once')){
                 node.overwriteStatus('shortest twice');
             }else if (node.status.includes('twice')){
@@ -200,8 +200,18 @@ async function drawShortestPath(endNode){
             }else if (node.status.includes('thrice')){
                 node.overwriteStatus('shortest quadrice');
             }
-        }else {
+        }else if (!node.status.includes('weighted')){
             node.overwriteStatus('shortest once');
+        }else if (node.status.includes('weighted') && node.status.includes('shortest')){
+            if (node.status.includes('once')){
+                node.overwriteStatus('weighted shortest twice');
+            }else if (node.status.includes('twice')){
+                node.overwriteStatus('weighted shortest thrice');
+            }else if (node.status.includes('thrice')){
+                node.overwriteStatus('weighted shortest quadrice');
+            }
+        }else if (node.status.includes('weighted')){
+            node.overwriteStatus('weighted shortest once');
         }
     }
 

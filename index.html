@@ -25,14 +25,34 @@
 
 <body onload="createGrid()" onmouseup="mouseUpHandler()">
     <div class="header">
-      <button type="button" class="header-btn" onclick="Dijkstra(grid)">start</button>
+      <button type="button" class="header-btn" onclick="startAlgorithm(grid)">start</button>
       <div class="dropdown-box">
         <button class="header-btn" id="dropdown-btn">Speed</button>
         <div class="dropdown-content">
-          <p class="dropdown-select" onclick="SelectFromDropdown(this)">slow</p>
-          <p class="dropdown-select" onclick="SelectFromDropdown(this)">medium</p>
-          <p class="dropdown-select" onclick="SelectFromDropdown(this)">fast</p>
-          <p class="dropdown-select" onclick="SelectFromDropdown(this)">no delay</p>
+          <p class="dropdown-select" onclick="SelectSpeed(this)">slow</p>
+          <p class="dropdown-select" onclick="SelectSpeed(this)">medium</p>
+          <p class="dropdown-select" onclick="SelectSpeed(this)">fast</p>
+          <p class="dropdown-select" onclick="SelectSpeed(this)">no delay</p>
+        </div>
+      </div>
+      <div class="dropdown-box">
+        <button class="header-btn" id="dropdown-btn" onmousedown="ResetGrid(grid)">Reset grid</button>
+        <div class="dropdown-content">
+          <span class="dropdown-select reset" id="startnode-reset" onclick="HandleResets(this)">
+            <p><div class="explanation startnode dropdown"></div>begin</p><span id="startnode-reset-inner"></span>
+          </span>
+          <span class="dropdown-select reset"  id="endnode-reset" onclick="HandleResets(this)">
+            <p><div class="explanation endnode dropdown"></div>end</p><span id="endnode-reset-inner"></span>
+          </span>
+          <span class="dropdown-select reset"  id="waypoint-reset" onclick="HandleResets(this)">
+            <p><div class="explanation waypoint one dropdown"></div>waypoints</p><span id="waypoint-reset-inner"></span>
+          </span>
+          <span class="dropdown-select reset"  id="wall-reset" onclick="HandleResets(this)">
+            <p><div class="explanation node wall dropdown"></div>walls</p><span id="wall-reset-inner"></span>
+          </span>
+          <span class="dropdown-select reset"  id="weighted-reset" onclick="HandleResets(this)">
+            <p><div class="explanation weighted dropdown"></div>weights</p><span id="weighted-reset-inner"></span>
+          </span>
         </div>
       </div>
       <button id="popup-btn" class="header-btn">how to use?</button>

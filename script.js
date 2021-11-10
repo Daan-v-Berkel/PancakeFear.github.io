@@ -52,7 +52,6 @@ function mouseDownHandler(e){
   grid.currentNode = grid.getNode(id);
   grid.pressedNodeStatus = setMouseStatus(e);
   if (e.which === 2){
-    var waypoints = grid.waypoints;
     if (!grid.pressedNodeStatus.includes('waypoint')){
       var idToRemove = grid.addWaypoint(grid.currentNode);
       if (idToRemove){
@@ -173,7 +172,10 @@ function setMouseStatus(targetElement){
   return null;
 }
 
-function SelectFromDropdown(elem){
+function SelectSpeed(elem){
+  if (grid.active){
+    return;
+  }
   var gridElement = document.getElementById('grid');
   var nodeElements = gridElement.getElementsByClassName('node');
   var btn = document.getElementById("dropdown-btn");
@@ -201,12 +203,10 @@ function SelectFromDropdown(elem){
   btn.innerHTML = `Speed: ${speedString}`;
 
   if (!grid.speed){
-    console.log(nodeElements);
     for (var node of nodeElements){
       node.style.transition = 'none';
     }
   }else{
-    console.log(nodeElements);
     for (var node of nodeElements){
       node.style.transition = '0.6s ease-out'
     }

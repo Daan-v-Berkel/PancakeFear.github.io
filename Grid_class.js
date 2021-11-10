@@ -8,6 +8,7 @@ class Grid {
       this.active = false;
       this.nodes = [];
       this.waypoints = [];
+      this.nodesToReset = [];
       this.mousePressed = false;
       this.pressedNodeStatus = null;
       this.currentNode = null;
@@ -15,6 +16,7 @@ class Grid {
       this.enteredSpecialNode = false;
       this.speed = 100;
       this.weightNumber = 3;
+      this.algorithmFinished = false;
     }
   // gets a node from the created nodes in the grid
     getNode(id){
@@ -43,13 +45,25 @@ class Grid {
       var nodesFound = [];
 
       for (var r in this.nodes){
-        for (var n in r){
-          if (n.status.includes(status)){
-            nodesFound.push(n);
+        for (var n in this.nodes[r]){
+          var node = this.nodes[r][n];
+          if (node.status.includes(status)){
+            nodesFound.push(node);
           }
         }
       }
       return nodesFound;
+    }
+    
+    findAndResetAll(status){
+      for (var r in this.nodes){
+        for (var n in this.nodes[r]){
+          var node = this.nodes[r][n];
+          if (node.status.includes(status)){
+            this.resetNode(node);
+          }
+        }
+      }
     }
 
     addWaypoint(wpNode, replaceIndex=null){
@@ -80,11 +94,9 @@ class Grid {
             this.waypoints[i].status = `node waypoint three`;
             break;
           default:
-            console.log(i);
+            break;
         }
-        //this.waypoints[i].status = `node waypoint ${indexToString}`;
       }
-      //console.log(this.waypoints);
       if(lostWP){return lostWP.id;}
     }
 
@@ -109,10 +121,48 @@ class Grid {
             this.waypoints[i].status = `node waypoint three`;
             break;
           default:
-            console.log(i);
+            break;
         }
-        //this.waypoints[i].status = `node waypoint ${indexToString}`;
       }
-      //return nodeToRemove.id;
+    }
+
+    softReset(){
+      //this.start = null;
+      //this.end = null;
+      this.active = false;
+      //this.waypoints = [];
+      //this.nodesToReset = [];
+      this.mousePressed = false;
+      this.pressedNodeStatus = null;
+      this.currentNode = null;
+      this.previousNode = null;
+      this.enteredSpecialNode = false;
+      var classesToRemove = ['quadrice', 'thrice', 'twice', 'once', 'shortest', 'visited'];
+
+      for (var cl of classesToRemove){
+        for (var r in this.nodes){
+          for (var c in this.nodes[r]){
+            var node = this.nodes[r][c];
+            if (node.status.includes(cl)){
+              node.removeStatus(cl);
+              node.softReset();
+              var elem = document.getElementById(node.id);
+              elem.className = node.status;
+            }else if (node.status === 'node'){
+              node.softReset();
+            }
+          }
+        }
+      }
+
+      //  var elements = Array.from(gridDiv.getElementsByClassName(c));
+      //  for (var element of elements){
+      //    var id = element.id;
+      //    var node = this.getNode(id);
+      //    node.softReset();
+      //    node.removeStatus(c);
+      //    element.className = node.status;
+      //  }
+      //}
     }
   }

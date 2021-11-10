@@ -64,7 +64,6 @@ function sleep(ms) {
 
   function getAllNeighbours(node){
     let coordinates = node.id;
-    //console.log(coordinates);
     let row = parseInt(coordinates.split(',')[0]);
     let col = parseInt(coordinates.split(',')[1]);
 
@@ -163,7 +162,7 @@ function DrawVisited(node){
     var id = node.id;
     var elem = document.getElementById(id);
     if (node.visited && !(node.status === 'endnode') && !(node.status.includes('shortest'))){
-        node.addStatus('visited');
+        //node.addStatus('visited');
         if (node.status.includes('once')){
             node.replaceStatus('once', 'twice');
         }else if (node.status.includes('twice')){
@@ -171,7 +170,7 @@ function DrawVisited(node){
         }else if (node.status.includes('thrice')){
             node.replaceStatus('thrice', 'quadrice');
         }else{
-            node.addStatus('once');
+            node.addStatus('visited once');
         }
 
         elem.className = node.status;
@@ -191,7 +190,6 @@ async function drawShortestPath(endNode){
     var elem = document.getElementById(id);
 
     if (!(node.status.includes('endnode')) && !(node.status.includes('waypoint'))){
-        console.log(node.status);
         if (node.status.includes('shortest') && !(node.status.includes('weighted'))){
             if (node.status.includes('once')){
                 node.overwriteStatus('shortest twice');
@@ -215,7 +213,6 @@ async function drawShortestPath(endNode){
         }
     }
 
-    //node.addStatus('shortest');
     elem.className = node.status;
     if (grid.speed){
         await sleep(grid.speed);
@@ -236,12 +233,6 @@ function addWeights(){
     }
 }
 
-function PrepareRerun(grid){
-    var nodesToClear = [];
-    for (var i in nodesToClear){
-        var currentNode = nodesToClear[i];
-    }
-}
 
 function handleWaypoints(){
     var gridDiv = document.getElementById('grid');
@@ -261,3 +252,59 @@ function handleWaypoints(){
         grid.waypoints.splice(2, 1, grid.getNode(idThree));
     }
 }
+
+function HandleResets(elem){
+    var itemClicked = elem.id;
+    var innerSpan = document.getElementById(`${itemClicked}-inner`);
+    var statusName = itemClicked.replace('-reset', '');
+
+    if (innerSpan.innerHTML){
+        innerSpan.innerHTML = '';
+        var index = grid.nodesToReset.indexOf(statusName);
+        grid.nodesToReset.splice(index, 1);
+    }else {
+        innerSpan.innerHTML = "&check;";
+        grid.nodesToReset.push(statusName);
+    }
+}
+
+function RedrawGrid(grid){
+    for (row in grid.nodes){
+        for (col in grid.nodes[row]){
+            var node = grid.nodes[row][col];
+            var status = node.status;
+            var id = node.id;
+            document.getElementById(id).className = status;
+        }
+    }
+}
+
+function ResetGrid(grid){
+    if (grid.active){
+        return;
+    }
+    
+    var start = grid.start;
+    var end = grid.end;
+    grid.softReset();
+
+    for (var idx in grid.nodesToReset){
+        var currentStatusToReset = grid.nodesToReset[idx];
+        if (currentStatusToReset !== 'startnode' && currentStatusToReset !== 'endnode'){
+            grid.findAndResetAll(currentStatusToReset)
+            if(currentStatusToReset === 'waypoint'){
+                grid.waypoints = [];
+            }
+        }else if (currentStatusToReset == 'startnode') {
+            grid.resetNode(start);
+            grid.start = grid.getNode('3,6');
+            grid.getNode('3,6').status = 'startnode';
+        }else if (currentStatusToReset == 'endnode') {
+            grid.resetNode(end);
+            grid.end = grid.getNode('22,50');
+            grid.getNode('22,50').status = 'endnode';
+        }
+    }
+    RedrawGrid(grid);
+}
+

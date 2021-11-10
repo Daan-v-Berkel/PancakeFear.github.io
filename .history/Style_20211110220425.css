@@ -179,10 +179,6 @@ body {
   padding: 0 10px;
 }
 
-.header-btn > a {
-  text-decoration: none;
-}
-
 .explanations {
   width: fit-content;
   height: 25px;

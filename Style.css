@@ -178,6 +178,9 @@ body {
   cursor: pointer;
   padding: 0 10px;
 }
+.header-btn:hover {
+  background: rgba(35, 77, 63, 0.8);
+}
 
 .explanations {
   width: fit-content;

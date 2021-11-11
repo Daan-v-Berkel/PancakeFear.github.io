@@ -102,6 +102,7 @@ function mouseDownHandler(e) {
       grid.pressedNodeStatus = "node weighted";
       grid.currentNode.overwriteStatus("weighted");
       e.target.className = grid.currentNode.status;
+      console.log(grid.weightNumber);
       return;
     }
   }
@@ -173,6 +174,7 @@ function mouseEnterHandler(e) {
     ) {
       grid.previousNode = grid.currentNode;
       grid.currentNode = grid.getNode(id);
+      grid.currentNode.previousState = grid.currentNode.status;
       switch (
         grid.pressedNodeStatus //depending on what type of node you clicked first, decides what to turn the entered node to.
       ) {
@@ -189,10 +191,9 @@ function mouseEnterHandler(e) {
           thisElement.className = grid.currentNode.status;
           break;
         default:
-          //TODO: make this revert the last node to what it was instead of whiping it clean.
           grid.currentNode.status = grid.pressedNodeStatus;
           thisElement.className = grid.pressedNodeStatus;
-          grid.previousNode.status = "node";
+          grid.previousNode.status = grid.previousNode.previousState;
           prevElement.className = grid.previousNode.status;
           break;
       }

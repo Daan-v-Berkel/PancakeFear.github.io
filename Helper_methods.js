@@ -246,6 +246,15 @@ async function drawShortestPath(endNode) {
   }
 }
 
+function SetWeightValue(slider) {
+  // gets the value from the weights slider
+  // and sets it to the value of weights to be added.
+  var val = slider.value;
+  var output = document.getElementById("weightLabel");
+  output.innerHTML = `weight value: ${val}`;
+  grid.weightNumber = val;
+}
+
 function addWeights() {
   // checks for all weights drawn on the grid and
   // assigns the status to the underlying node.
@@ -257,7 +266,7 @@ function addWeights() {
       currentElement = weightedNodes.item(i);
       currentId = currentElement.id;
       currentNode = grid.getNode(currentId);
-      currentNode.weight = grid.weightNumber; //TODO: make the weightnumber a setting for the user.
+      currentNode.weight = grid.weightNumber;
     }
   }
 }

@@ -1,8 +1,8 @@
 class GridNode {
   // Base class for nodes, each representing 'backend' of the visual block(html div)
-  constructor(id, status){
+  constructor(id, status) {
     this.id = id;
-    this.status = status;// node, startnode, endnode, visited, weighted, shortest, wall, waypoint(one, two, three).
+    this.status = status; // node, startnode, endnode, visited, weighted, shortest, wall, waypoint(one, two, three).
     this.previousNode = null;
     this.visited = false;
     this.path = null;
@@ -14,9 +14,11 @@ class GridNode {
     this.weight = 0;
     this.relatesToObject = false;
     this.overwriteObjectRelation = false;
+    this.previousState = "node";
   }
 
-  softReset(){//soft reset, for multiple waypoints
+  softReset() {
+    //soft reset, for multiple waypoints
     //this.status = 'node';
     this.previousNode = null;
     this.path = null;
@@ -31,22 +33,22 @@ class GridNode {
     this.overwriteObjectRelation = false;
   }
 
-  addStatus(s){
+  addStatus(s) {
     this.status = `${this.status} ${s}`;
   }
 
-  overwriteStatus(s){
+  overwriteStatus(s) {
     this.status = `node ${s}`;
   }
 
-  removeStatus(s){
-    var toRemove = ' ' + s;
+  removeStatus(s) {
+    var toRemove = " " + s;
     var currentStatus = this.status;
-    var newStatus = currentStatus.replace(toRemove, '');
-    this.status = newStatus
+    var newStatus = currentStatus.replace(toRemove, "");
+    this.status = newStatus;
   }
 
-  replaceStatus(oldS, newS){
+  replaceStatus(oldS, newS) {
     this.removeStatus(oldS);
     this.addStatus(newS);
   }

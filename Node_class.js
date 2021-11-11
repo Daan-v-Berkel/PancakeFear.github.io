@@ -1,5 +1,5 @@
 class GridNode {
-  // Base class for nodes, each representing 'backend' of the visual block
+  // Base class for nodes, each representing 'backend' of the visual block(html div)
   constructor(id, status){
     this.id = id;
     this.status = status;// node, startnode, endnode, visited, weighted, shortest, wall, waypoint(one, two, three).

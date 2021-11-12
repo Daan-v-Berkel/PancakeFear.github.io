@@ -99,3 +99,46 @@ async function Dijkstra(grid) {
     }
   }
 }
+
+function Tester(grid) {
+  let start = grid.start;
+  let end = grid.end;
+  let path = [];
+  path.push(start);
+  var nodesToVisit = Array.from(grid.waypoints);
+  nodesToVisit.push(end);
+  var startPoints = [start].concat(grid.waypoints);
+
+  for (var i = 0; i < nodesToVisit.length; i++) {
+    grid.findAndResetAll("visited");
+    var priorityQueue = new PriorityQueue();
+    var currentTarget = nodesToVisit[i];
+    currentTarget.softReset();
+    var currentStart = startPoints[i];
+    currentStart.visited = true;
+    currentStart.distance = 0;
+    currentStart.totalDistance = 0;
+    priorityQueue.enqueue(currentStart, currentStart.totalDistance);
+
+    while (!priorityQueue.isEmpty()) {
+      var currentNode = priorityQueue.dequeue().element;
+      if (currentNode == currentTarget && currentTarget == end) {
+        console.log("true");
+        return true;
+      } else if (currentNode == currentTarget) {
+        break;
+      }
+      var currentNeighbours = getAllNeighbours(currentNode);
+
+      for (var ind in currentNeighbours) {
+        var n = currentNeighbours[ind];
+        n.visited = true;
+        priorityQueue.enqueue(n, n.totalDistance);
+      }
+    }
+    if (priorityQueue.isEmpty()) {
+      console.log("false");
+      return false;
+    }
+  }
+}

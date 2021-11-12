@@ -57,6 +57,7 @@ async function Dijkstra(grid) {
         drawShortestPath(currentNode);
         grid.algorithmFinished = true;
         grid.active = false;
+        grid.succes = true;
         return;
       } else if (currentNode == currentTarget) {
         // if we find the current target, break out and set the next target
@@ -83,6 +84,7 @@ async function Dijkstra(grid) {
       console.log("failure");
       grid.algorithmFinished = true;
       grid.active = false;
+      grid.succes = false;
 
       var popup = document.getElementById("popup-algo-failed");
       var closeBtn = document.getElementsByClassName("close")[1];

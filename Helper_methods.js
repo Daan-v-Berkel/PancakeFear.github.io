@@ -343,7 +343,6 @@ function ResetGrid(grid) {
         grid.waypoints = [];
       }
     } else if (currentStatusToReset == "startnode") {
-      //TODO make this dynamic instead of hard-coded.
       grid.resetNode(start);
       grid.start = grid.getNode("3,6");
       grid.getNode("3,6").status = "startnode";
@@ -371,4 +370,69 @@ function CloseWindow() {
       popup.style.display = "none";
     }
   };
+}
+
+function Maze() {
+  // very dumb way of making a maze
+  // able to create mazes with no possible path.
+  var start = document.getElementsByClassName("startnode")[0];
+  var end = document.getElementsByClassName("endnode")[0];
+
+  // first get the grid ready by resetting it (walls and softreset)
+  grid.softReset();
+  grid.findAndResetAll("node wall");
+  RedrawGrid(grid);
+
+  // for every node in every uneven row
+  // this will turn it into a wall based on a random number
+  // comes down to about 60% of them at random
+  for (var row in grid.nodes) {
+    if (row % 2 == 1) {
+      var r = grid.nodes[row];
+      for (var idx in r) {
+        var randNum = Math.floor(Math.random() * 10);
+        var node = r[idx];
+        if (
+          node.status === "startnode" ||
+          node.status === "endnode" ||
+          node.status.includes("waypoint")
+        ) {
+          continue;
+        } else if (randNum < 7) {
+          node.status = "node wall";
+          document.getElementById(node.id).className = node.status;
+        }
+      }
+    }
+  }
+  // then this will do the same for every even row
+  // only turning about 20% of them into walls
+  for (var row in grid.nodes) {
+    if (row % 2 == 0) {
+      var r = grid.nodes[row];
+      for (var idx in r) {
+        var randNum = Math.floor(Math.random() * 10);
+        var node = r[idx];
+        if (
+          node.status === "startnode" ||
+          node.status === "endnode" ||
+          node.status.includes("waypoint")
+        ) {
+          continue;
+        } else if (randNum > 8) {
+          node.status = "node wall";
+          document.getElementById(node.id).className = node.status;
+        }
+      }
+    }
+  }
+  // terrible attempt to create less mazes with no path
+  // by making sure the start and endnode have at most 2 walls next to them
+  if (getAllNeighbours(start).length < 1 || getAllNeighbours(end).length < 1) {
+    Maze();
+  }
+  // to create mazes that are allways possible it is ofc possible
+  // to call a pathfinder after it is created and run this algorithm again
+  // if no path can be found.
+  // this 
 }

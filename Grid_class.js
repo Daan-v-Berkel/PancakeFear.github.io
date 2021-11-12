@@ -17,6 +17,7 @@ class Grid {
     this.speed = 100;
     this.weightNumber = 3;
     this.algorithmFinished = false;
+    this.succes = false;
   }
   // gets a node from the created nodes in the grid
   getNode(id) {
@@ -141,6 +142,7 @@ class Grid {
     this.currentNode = null;
     this.previousNode = null;
     this.enteredSpecialNode = false;
+    this.succes = false;
     var classesToRemove = [
       // classes that always need to be takes away for reruns.
       "quadrice",

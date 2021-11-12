@@ -53,8 +53,17 @@ function mouseDownHandler(e) {
   var id = e.target.id;
   grid.currentNode = grid.getNode(id);
   grid.pressedNodeStatus = setMouseStatus(e);
-  if (e.which === 2) {
-    // if middle mouse button
+  if (
+    (e.which === 2 || e.shiftKey) &&
+    !(
+      (
+        e.target.className.includes("start") ||
+        e.target.className.includes("end")
+      ) // dont change start or end into waypoint
+    )
+  ) {
+    // if middle mouse button or shift+left-click
+    grid.mousePressed = false;
     if (!grid.pressedNodeStatus.includes("waypoint")) {
       var idToRemove = grid.addWaypoint(grid.currentNode);
       // addwaypoint makes sure no more then 3 waypoints can be made, and removes the correct
@@ -85,16 +94,17 @@ function mouseDownHandler(e) {
     }
   }
   if (
-    e.which === 3 &&
+    (e.which === 3 || e.altKey) &&
     !(
       grid.currentNode.status.includes("start") ||
       grid.currentNode.status.includes("end") ||
       grid.currentNode.status.includes("waypoint")
     )
   ) {
-    //right mousebutton
+    //right mousebutton or alt+left-click
+
     if (grid.currentNode.status.includes("weighted")) {
-      grid.pressedNodeStatus = "node";
+      grid.pressedNodeStatus = "node wall";
       grid.currentNode.status = "node";
       e.target.className = grid.currentNode.status;
       return;
@@ -102,7 +112,6 @@ function mouseDownHandler(e) {
       grid.pressedNodeStatus = "node weighted";
       grid.currentNode.overwriteStatus("weighted");
       e.target.className = grid.currentNode.status;
-      console.log(grid.weightNumber);
       return;
     }
   }
@@ -113,7 +122,10 @@ function mouseDownHandler(e) {
   ) {
     // left mouse button
     return;
-  } else if (!grid.pressedNodeStatus.includes("wall")) {
+  } else if (
+    grid.pressedNodeStatus === "node" ||
+    grid.pressedNodeStatus.includes("weighted")
+  ) {
     grid.currentNode.status = "node wall";
     e.target.className = grid.currentNode.status;
   } else if (grid.pressedNodeStatus.includes("wall")) {
@@ -175,6 +187,7 @@ function mouseEnterHandler(e) {
       grid.previousNode = grid.currentNode;
       grid.currentNode = grid.getNode(id);
       grid.currentNode.previousState = grid.currentNode.status;
+      console.log(grid.pressedNodeStatus);
       switch (
         grid.pressedNodeStatus //depending on what type of node you clicked first, decides what to turn the entered node to.
       ) {
@@ -183,8 +196,13 @@ function mouseEnterHandler(e) {
           thisElement.className = grid.currentNode.status; // set the status on the backend node and the identical classname on the corresponding div
           break;
         case "node weighted":
-          grid.currentNode.overwriteStatus("weighted");
-          thisElement.className = grid.currentNode.status;
+          if (e.which === 3) {
+            grid.currentNode.overwriteStatus("weighted");
+            thisElement.className = grid.currentNode.status;
+          } else {
+            grid.currentNode.overwriteStatus("wall");
+            thisElement.className = grid.currentNode.status;
+          }
           break;
         case "node":
           grid.currentNode.overwriteStatus("wall");

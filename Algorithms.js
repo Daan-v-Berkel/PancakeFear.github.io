@@ -83,7 +83,16 @@ async function Dijkstra(grid) {
       console.log("failure");
       grid.algorithmFinished = true;
       grid.active = false;
-      alert("either the start or end is unreachable.\nNo path can be found."); //TODO: make this nicer
+
+      var popup = document.getElementById("popup-algo-failed");
+      var closeBtn = document.getElementsByClassName("close")[1];
+      popup.style.display = "block";
+
+      window.onclick = function (event) {
+        if (event.target == popup || event.target == closeBtn) {
+          popup.style.display = "none";
+        }
+      };
       return;
     }
   }

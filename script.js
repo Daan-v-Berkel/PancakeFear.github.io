@@ -187,7 +187,6 @@ function mouseEnterHandler(e) {
       grid.previousNode = grid.currentNode;
       grid.currentNode = grid.getNode(id);
       grid.currentNode.previousState = grid.currentNode.status;
-      console.log(grid.pressedNodeStatus);
       switch (
         grid.pressedNodeStatus //depending on what type of node you clicked first, decides what to turn the entered node to.
       ) {
@@ -270,23 +269,3 @@ function SelectSpeed(elem) {
     }
   }
 }
-
-//TODO: probably should put this in a function.
-//adds handlers to the popup window for the instructions.
-var popup = document.getElementById("popup");
-var btn = document.getElementById("popup-btn");
-var span = document.getElementsByClassName("close")[0];
-
-btn.onclick = function () {
-  popup.style.display = "block";
-};
-
-span.onclick = function () {
-  popup.style.display = "none";
-};
-
-window.onclick = function (event) {
-  if (event.target == popup) {
-    popup.style.display = "none";
-  }
-};

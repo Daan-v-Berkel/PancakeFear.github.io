@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Pathfinder Visualizer</title>
-  <meta name="description" content="A pathfinder algorithm visualizer">
+  <meta name="description" content="An interactive pathfinding algorithm visualizer">
   <meta name="author" content="DaanvB">
 
   <meta property="og:title" content="Pathfinding visualizer">
   <meta property="og:type" content="website">
-  <meta property="og:description" content="A pathfinder algorithm visualizer">
+  <meta property="og:description" content="An interactive pathfinding algorithm visualizer">
 
   <link rel="stylesheet" href="Style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,8 +56,8 @@
           </span>
         </div>
       </div>
-      <button id="popup-btn" class="header-btn">how to use?</button>
-        <div id="popup" class="popup-instructions">
+      <button id="popup-btn" class="header-btn" onclick="ShowInstructions()">how to use?</button>
+        <div id="popup" class="popup-instructions"  onclick="CloseWindow(this)">
           <div class="popup-content">
             <span class="close">&times;</span>
             <h1>How does it work?</h1>
@@ -73,11 +73,20 @@
             
           </div>
         </div>
-        <button type="button" class="header-btn" onclick="window.open('https://github.com/PancakeFear/PancakeFear.github.io', '_blank'); return flase;">Github repo</button>
-      <!--<button type="button" class="header-btn" onclick="demo()">test</button>-->
+      <button type="button" class="header-btn" onclick="window.open('https://github.com/PancakeFear/PancakeFear.github.io', '_blank'); return flase;">Github repo</button>
     </div>
-    <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     <div class="hero">
+      <div id="popup-algo-failed" class="popup-instructions">
+        <div class="popup-content">
+          <span class="close">&times;</span>
+          <h1>Failed to find a path</h1>
+          <p class="instruction-text">
+            the algorithm has failed to find its destination <br><br>
+            This is most likely because there is no possible path.
+          </p>
+          
+        </div>
+      </div>
       <div class="explanations">
         <div name="begin" class="explanation startnode"></div><label for="begin">begin</label>
         <div name="dest" class="explanation endnode"></div><label for="dest">destination</label>
@@ -87,6 +96,7 @@
         <div name="visit" class="explanation node visited"></div><label for="visit">already visited node</label>
         <div name="waypoint" class="explanation node waypoint one"></div><label for="waypoint">waypoint</label>
         <div name="shortest" class="explanation node shortest"></div><label for="shortest">shortest path</label>
+        
       </div>
         <div id='grid'>
             

@@ -355,3 +355,20 @@ function ResetGrid(grid) {
   }
   RedrawGrid(grid);
 }
+
+function ShowInstructions() {
+  // 'opens' the popup window with instructions
+  var popup = document.getElementById("popup");
+  popup.style.display = "block";
+}
+
+function CloseWindow() {
+  var popup = document.getElementById("popup");
+  var closeBtn = document.getElementsByClassName("close")[0];
+  //popup.style.display = "block";
+  window.onclick = function (event) {
+    if (event.target == popup || event.target == closeBtn) {
+      popup.style.display = "none";
+    }
+  };
+}

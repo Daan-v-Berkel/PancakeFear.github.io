@@ -17,7 +17,6 @@ body {
 
 .hero {
   height: inherit;
-  min-height: 700px;
   padding-top: 80px;
   background: linear-gradient(rgb(100, 211, 175), rgb(211, 200, 100));
 }

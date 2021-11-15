@@ -237,12 +237,25 @@ async function drawShortestPath(endNode) {
         node.overwriteStatus("weighted shortest once");
       }
     }
-
+    node.softReset();
     elem.className = node.status;
     if (grid.speed) {
       // add the delay to make visualizing a bit more appealing
       await sleep(grid.speed / 3);
     }
+  }
+}
+
+function resetShortest(endNode) {
+  var current = endNode.previousNode;
+  var ls = [];
+  while (current.previousNode) {
+    ls.push(current);
+    current = current.previousNode;
+  }
+  while (ls.length) {
+    var node = ls.pop();
+    node.softReset();
   }
 }
 
@@ -374,17 +387,15 @@ function CloseWindow() {
 
 function Maze() {
   // very dumb way of making a maze
-  // able to create mazes with no possible path.
 
-  // first get the grid ready by resetting it (walls and softreset)
-
-  // for every node in every uneven row
-  // this will turn it into a wall based on a random number
-  // comes down to about 60% of them at random
   do {
+    // first get the grid ready by resetting it (walls and softreset)
     grid.softReset();
     grid.findAndResetAll("wall");
     RedrawGrid(grid);
+    // for every node in every uneven row
+    // this will turn it into a wall based on a random number
+    // comes down to about 60% of them at random
     for (var row in grid.nodes) {
       if (row % 2 == 1) {
         var r = grid.nodes[row];
@@ -426,11 +437,9 @@ function Maze() {
       }
     }
   } while (Tester(grid) == false);
-  // terrible attempt to create less mazes with no path
-  // by making sure the start and endnode have at most 2 walls next to them
-
-  // to create mazes that are allways possible it is ofc possible
-  // to call a pathfinder after it is created and run this algorithm again
-  // if no path can be found.
-  // this
+  grid.softReset();
+  // Tester function will see if all waypoints (including endnode)
+  // are reachable, therefor a path must be possible.
+  // FIXME on rare occassions the algorithm can't find a path.
+  // seems to happen only with 3 waypoints.
 }

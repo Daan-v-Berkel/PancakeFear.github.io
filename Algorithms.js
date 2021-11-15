@@ -28,7 +28,6 @@ async function Dijkstra(grid) {
 
   for (var i = 0; i < nodesToVisit.length; i++) {
     // basically runs the algorithm for every startpoint (needed in case the user adds waypoints)
-    //FIXME with no delay, this doesnt clear before the next run is started. or something like that
     var nodesToClearO = gridDiv.getElementsByClassName("visited");
     var nodesToClear = Array.from(nodesToClearO); // because the algorithm runs multiple times in case of waypoints
     for (var index = 0; index < nodesToClear.length; index++) {
@@ -61,7 +60,7 @@ async function Dijkstra(grid) {
         return;
       } else if (currentNode == currentTarget) {
         // if we find the current target, break out and set the next target
-        drawShortestPath(currentNode);
+        await drawShortestPath(currentNode);
         break;
       }
       var currentNeighbours = getAllNeighbours(currentNode);
@@ -101,44 +100,45 @@ async function Dijkstra(grid) {
 }
 
 function Tester(grid) {
+  // to test if a path is possible
+  // only checks if all waypoints including endnode are reachable.
   let start = grid.start;
-  let end = grid.end;
-  let path = [];
-  path.push(start);
-  var nodesToVisit = Array.from(grid.waypoints);
-  nodesToVisit.push(end);
-  var startPoints = [start].concat(grid.waypoints);
+  var needToInclude = [];
+  var inc = 0;
+  for (node of grid.waypoints) {
+    needToInclude.push(node.id);
+  }
+  needToInclude.push(grid.end.id);
 
-  for (var i = 0; i < nodesToVisit.length; i++) {
-    grid.findAndResetAll("visited");
-    var priorityQueue = new PriorityQueue();
-    var currentTarget = nodesToVisit[i];
-    currentTarget.softReset();
-    var currentStart = startPoints[i];
-    currentStart.visited = true;
-    currentStart.distance = 0;
-    currentStart.totalDistance = 0;
-    priorityQueue.enqueue(currentStart, currentStart.totalDistance);
+  //dumbed down version of Dijkstra's
+  // checks all possible nodes in the grid as if its searching for a target.
+  // for every node it visits it checks if it is one of the targets that needs to be reachable.
+  // if all targets have been found. there must be a path possible.
 
-    while (!priorityQueue.isEmpty()) {
-      var currentNode = priorityQueue.dequeue().element;
-      if (currentNode == currentTarget && currentTarget == end) {
-        console.log("true");
+  var prio = new PriorityQueue();
+  start.visited = true;
+  start.distance = 0;
+  start.totalDistance = 0;
+  prio.enqueue(start, start.totalDistance);
+
+  while (!prio.isEmpty()) {
+    var currentNode = prio.dequeue().element;
+    if (needToInclude.includes(currentNode.id)) {
+      inc++;
+      if (needToInclude.length == inc) {
+        grid.softReset();
         return true;
-      } else if (currentNode == currentTarget) {
-        break;
-      }
-      var currentNeighbours = getAllNeighbours(currentNode);
-
-      for (var ind in currentNeighbours) {
-        var n = currentNeighbours[ind];
-        n.visited = true;
-        priorityQueue.enqueue(n, n.totalDistance);
       }
     }
-    if (priorityQueue.isEmpty()) {
-      console.log("false");
-      return false;
+    var neighbours = getAllNeighbours(currentNode);
+    for (n of neighbours) {
+      n.visited = true;
+      prio.enqueue(n, n.totalDistance);
     }
+  }
+  if (prio.isEmpty()) {
+    console.log("false");
+    grid.softReset();
+    return false;
   }
 }

@@ -157,13 +157,11 @@ class Grid {
       for (var r in this.nodes) {
         for (var c in this.nodes[r]) {
           var node = this.nodes[r][c];
+          node.softReset();
           if (node.status.includes(cl)) {
             node.removeStatus(cl);
-            node.softReset();
             var elem = document.getElementById(node.id);
             elem.className = node.status;
-          } else if (node.status === "node") {
-            node.softReset();
           }
         }
       }

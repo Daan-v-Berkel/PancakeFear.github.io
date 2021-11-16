@@ -52,4 +52,21 @@ class GridNode {
     this.removeStatus(oldS);
     this.addStatus(newS);
   }
+
+  SetHeuristicDistance(targetNode){
+    // sets the heuristic disnatnce of a node
+    // this is the estimated distance of the node to the target of
+    // a pathfinding algorithm like A*
+    let row = parseInt(this.id.split(",")[0]);
+    let col = parseInt(this.id.split(",")[1]);
+  
+    let targetRow = parseInt(targetNode.id.split(",")[0]);
+    let targetCol = parseInt(targetNode.id.split(",")[1]);
+  
+    var distRow = Math.abs(targetRow - row);
+    var distCol = Math.abs(targetCol - col);
+  
+    var heuristicDistance = distCol + distRow;
+    this.heuristicDistance = heuristicDistance;
+  }
 }

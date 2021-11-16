@@ -18,6 +18,8 @@ class Grid {
     this.weightNumber = 3;
     this.algorithmFinished = false;
     this.succes = false;
+    this.algorithms = ["DIJKSTRA", "ASTAR"];
+    this.pickedAlgorithm = "DIJKSTRA";
   }
   // gets a node from the created nodes in the grid
   getNode(id) {
@@ -134,7 +136,7 @@ class Grid {
   softReset() {
     //this.start = null;
     //this.end = null;
-    this.active = false;
+    //this.active = false;
     //this.waypoints = [];
     //this.nodesToReset = [];
     this.mousePressed = false;

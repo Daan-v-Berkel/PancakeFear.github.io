@@ -57,6 +57,18 @@
         </div>
       </div>
       <button type="button" class="header-btn" onclick="Maze()">Generate maze</button>
+      <div class="dropdown-box">
+        <button class="header-btn" id="dropdown-btn-algo">Algorithm: Dijkstra's</button>
+        <div class="dropdown-content">
+          <span class="dropdown-select reset" id="DIJKSTRA" onclick="pickAlgo(this)">
+            <p id="DIJKSTRA-SPAN">Dijkstra's</p><span id="DIJKSTRA-inner">&check;</span>
+          </span>
+          <span class="dropdown-select reset"  id="ASTAR" onclick="pickAlgo(this)">
+            <p id="ASTAR-SPAN">A*</p><span id="ASTAR-inner"></span>
+          </span>
+        </div>
+      </div>
+      <!-- <button type="button" class="header-btn" onclick="DirectedGuess(grid)">directed</button> -->
       <button id="popup-btn" class="header-btn" onclick="ShowInstructions()">How to use?</button>
         <div id="popup" class="popup-instructions"  onclick="CloseWindow(this)">
           <div class="popup-content">

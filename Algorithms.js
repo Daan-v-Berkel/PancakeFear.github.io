@@ -9,7 +9,17 @@ function startAlgorithm(grid) {
     grid.softReset(); //reset things like visited nodes and shortest path.
   }
 
-  Dijkstra(grid); //TODO: make this be able to run the algorithm chosen
+  switch (grid.pickedAlgorithm) {
+    case "DIJKSTRA":
+      Dijkstra(grid); //TODO: make this be able to run the algorithm chosen
+      break;
+    case "ASTAR":
+      Astar(grid);
+      break;
+    default:
+      Dijkstra(grid);
+      break;
+  }
 }
 //TODO: add more algorithms to choose from.
 
@@ -140,5 +150,91 @@ function Tester(grid) {
     console.log("false");
     grid.softReset();
     return false;
+  }
+}
+
+async function Astar(grid) {
+  grid.active = true; // makes sure no action can be taken while it is running
+  let start = grid.start;
+  let end = grid.end;
+  let path = [];
+  let drawSpeed = grid.speed;
+  var gridDiv = document.getElementById("grid");
+  path.push(start);
+  var nodesToVisit = Array.from(grid.waypoints); // this copies the array, because the array will be adapted in the algorithm.
+  nodesToVisit.push(end);
+  var startPoints = [start].concat(grid.waypoints);
+
+  for (var i = 0; i < nodesToVisit.length; i++) {
+    var nodesToClearO = gridDiv.getElementsByClassName("visited");
+    var nodesToClear = Array.from(nodesToClearO); // because the algorithm runs multiple times in case of waypoints
+    for (var index = 0; index < nodesToClear.length; index++) {
+      // this clears the 'visited = true' attribute from nodes.
+      var div = nodesToClear[index]; //else the algorithm skips earlier visited nodes.
+      var id = div.id;
+      var node = grid.getNode(id);
+      node.softReset();
+      div.className = node.status;
+    }
+
+    var currentStart = startPoints[i];
+    var currentTarget = nodesToVisit[i];
+    currentStart.SetHeuristicDistance(currentTarget);
+
+    var prioQueue = new PriorityQueue();
+    prioQueue.enqueue(currentStart, currentStart.heuristicDistance);
+
+    while (!prioQueue.isEmpty()) {
+      // if there is elements in the queue, there is still nodes to search.
+
+      var currentNode = prioQueue.dequeue().element;
+      currentNode.visited = true;
+      DrawVisited(currentNode);
+      if (currentNode == currentTarget && currentTarget == end) {
+        //if we find the endnode, stop.
+        drawShortestPath(currentNode);
+        grid.algorithmFinished = true;
+        grid.active = false;
+        grid.succes = true;
+        return;
+      } else if (currentNode == currentTarget) {
+        // if we find the current target, break out and set the next target
+        await drawShortestPath(currentNode);
+        break;
+      }
+      var currentNeighbours = getAllNeighbours(currentNode);
+
+      for (var ind in currentNeighbours) {
+        // every node the algorithm has searched will be 'colored'
+        var n = currentNeighbours[ind];
+        n.visited = true;
+        n.SetHeuristicDistance(currentTarget);
+        //DrawVisited(n);
+        prioQueue.enqueue(n, n.heuristicDistance);
+      }
+      if (drawSpeed) {
+        // only if the speed was not set to 'no delay', add a delay.
+        await sleep(drawSpeed / 10);
+        drawSpeed = drawSpeed * 0.999;
+      }
+    }
+    if (prioQueue.isEmpty()) {
+      // no more nodes to search and target was not found.
+      console.log("failure");
+      grid.algorithmFinished = true;
+      grid.active = false;
+      grid.succes = false;
+
+      var popup = document.getElementById("popup-algo-failed");
+      var closeBtn = document.getElementsByClassName("close")[1];
+      popup.style.display = "block";
+
+      window.onclick = function (event) {
+        if (event.target == popup || event.target == closeBtn) {
+          popup.style.display = "none";
+        }
+      };
+      return;
+    }
   }
 }

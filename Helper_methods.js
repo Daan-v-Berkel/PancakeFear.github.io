@@ -60,104 +60,118 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function getUpperNeighbour(node) {
+  let coordinates = node.id;
+  let row = parseInt(coordinates.split(",")[0]);
+  let col = parseInt(coordinates.split(",")[1]);
+  if (row === 0) {
+    return null;
+  } else {
+    var upperNeighbourRow = row - 1;
+    var upperNeighbourId = String(upperNeighbourRow) + "," + String(col);
+    var neighbour = grid.getNode(upperNeighbourId);
+    if (neighbour.visited || neighbour.status.includes("wall")) {
+      return null;
+    } else {
+      neighbour.distance = 1 + neighbour.weight;
+      neighbour.totalDistance = node.totalDistance + neighbour.distance;
+      neighbour.previousNode = node;
+      return neighbour;
+    }
+  }
+}
+
+function getRightNeighbour(node) {
+  let coordinates = node.id;
+  let row = parseInt(coordinates.split(",")[0]);
+  let col = parseInt(coordinates.split(",")[1]);
+  if (col === grid.columns - 1) {
+    return null;
+  } else {
+    var rightNeighbourCol = col + 1;
+    var rightNeighbourId = String(row) + "," + String(rightNeighbourCol);
+    var neighbour = grid.getNode(rightNeighbourId);
+    if (neighbour.visited || neighbour.status.includes("wall")) {
+      return null;
+    } else {
+      neighbour.distance = 1 + neighbour.weight;
+      neighbour.totalDistance = node.totalDistance + neighbour.distance;
+      neighbour.previousNode = node;
+      return neighbour;
+    }
+  }
+}
+
+function getBottomNeighbour(node) {
+  let coordinates = node.id;
+  let row = parseInt(coordinates.split(",")[0]);
+  let col = parseInt(coordinates.split(",")[1]);
+  if (row === grid.rows - 1) {
+    return null;
+  } else {
+    var bottomNeighbourRow = row + 1;
+    var bottomNeighbourId = String(bottomNeighbourRow) + "," + String(col);
+    var neighbour = grid.getNode(bottomNeighbourId);
+    if (neighbour.visited || neighbour.status.includes("wall")) {
+      return null;
+    } else {
+      neighbour.distance = 1 + neighbour.weight;
+      neighbour.totalDistance = node.totalDistance + neighbour.distance;
+      neighbour.previousNode = node;
+      return neighbour;
+    }
+  }
+}
+
+function getLeftNeighbour(node) {
+  let coordinates = node.id;
+  let row = parseInt(coordinates.split(",")[0]);
+  let col = parseInt(coordinates.split(",")[1]);
+  if (col === 0) {
+    return null;
+  } else {
+    var leftNeighbourCol = col - 1;
+    var leftNeighbourId = String(row) + "," + String(leftNeighbourCol);
+    var neighbour = grid.getNode(leftNeighbourId);
+    if (neighbour.visited || neighbour.status.includes("wall")) {
+      return null;
+    } else {
+      neighbour.distance = 1 + neighbour.weight;
+      neighbour.totalDistance = node.totalDistance + neighbour.distance;
+      neighbour.previousNode = node;
+      return neighbour;
+    }
+  }
+}
+
 function getAllNeighbours(node) {
   // gets all the neighbours of the target node
   // this is the long way around, because of the grid I decided to do it like so
   // a better way is probably to have each node store all connecting nodes and the distance to them
   // in an attribute.
-  let coordinates = node.id;
-  let row = parseInt(coordinates.split(",")[0]);
-  let col = parseInt(coordinates.split(",")[1]);
 
   //pretty self explanatory, checks if the current node is on the edge of the grid somewhere
   // to make sure it doesnt try and find a node outside of the grid.
   // then adds the neighbour to an array if it exists.
   // does so for al 4 sides of a node.
   let neighbours = [];
-  function getUpperNeighbour() {
-    if (row === 0) {
-      return null;
-    } else {
-      var upperNeighbourRow = row - 1;
-      var upperNeighbourId = String(upperNeighbourRow) + "," + String(col);
-      var neighbour = grid.getNode(upperNeighbourId);
-      if (neighbour.visited || neighbour.status.includes("wall")) {
-        return null;
-      } else {
-        neighbour.distance = 1 + neighbour.weight;
-        neighbour.totalDistance = node.totalDistance + neighbour.distance;
-        neighbour.previousNode = node;
-        return neighbour;
-      }
-    }
-  }
-  var upperNeighbour = getUpperNeighbour();
+
+  var upperNeighbour = getUpperNeighbour(node);
   if (upperNeighbour) {
     neighbours.push(upperNeighbour);
   }
 
-  function getRightNeighbour() {
-    if (col === grid.columns - 1) {
-      return null;
-    } else {
-      var rightNeighbourCol = col + 1;
-      var rightNeighbourId = String(row) + "," + String(rightNeighbourCol);
-      var neighbour = grid.getNode(rightNeighbourId);
-      if (neighbour.visited || neighbour.status.includes("wall")) {
-        return null;
-      } else {
-        neighbour.distance = 1 + neighbour.weight;
-        neighbour.totalDistance = node.totalDistance + neighbour.distance;
-        neighbour.previousNode = node;
-        return neighbour;
-      }
-    }
-  }
-  var rightNeighbour = getRightNeighbour();
+  var rightNeighbour = getRightNeighbour(node);
   if (rightNeighbour) {
     neighbours.push(rightNeighbour);
   }
 
-  function getBottomNeighbour() {
-    if (row === grid.rows - 1) {
-      return null;
-    } else {
-      var bottomNeighbourRow = row + 1;
-      var bottomNeighbourId = String(bottomNeighbourRow) + "," + String(col);
-      var neighbour = grid.getNode(bottomNeighbourId);
-      if (neighbour.visited || neighbour.status.includes("wall")) {
-        return null;
-      } else {
-        neighbour.distance = 1 + neighbour.weight;
-        neighbour.totalDistance = node.totalDistance + neighbour.distance;
-        neighbour.previousNode = node;
-        return neighbour;
-      }
-    }
-  }
-  var bottomNeighbour = getBottomNeighbour();
+  var bottomNeighbour = getBottomNeighbour(node);
   if (bottomNeighbour) {
     neighbours.push(bottomNeighbour);
   }
 
-  function getLeftNeighbour() {
-    if (col === 0) {
-      return null;
-    } else {
-      var leftNeighbourCol = col - 1;
-      var leftNeighbourId = String(row) + "," + String(leftNeighbourCol);
-      var neighbour = grid.getNode(leftNeighbourId);
-      if (neighbour.visited || neighbour.status.includes("wall")) {
-        return null;
-      } else {
-        neighbour.distance = 1 + neighbour.weight;
-        neighbour.totalDistance = node.totalDistance + neighbour.distance;
-        neighbour.previousNode = node;
-        return neighbour;
-      }
-    }
-  }
-  var leftNeighbour = getLeftNeighbour();
+  var leftNeighbour = getLeftNeighbour(node);
   if (leftNeighbour) {
     neighbours.push(leftNeighbour);
   }
@@ -318,6 +332,24 @@ function HandleResets(elem) {
   } else {
     innerSpan.innerHTML = "&check;";
     grid.nodesToReset.push(statusName);
+  }
+}
+
+function pickAlgo(elem) {
+  var itemClicked = elem.id;
+  var innerSpan = document.getElementById(`${itemClicked}-inner`);
+  var child = document.getElementById(`${itemClicked}-SPAN`);
+  var parent = document.getElementById("dropdown-btn-algo");
+
+  for (var algo of grid.algorithms) {
+    if (algo == itemClicked) {
+      innerSpan.innerHTML = "&check;";
+      grid.pickedAlgorithm = algo;
+      parent.innerHTML = `Algorithm: ${child.innerHTML}`;
+    } else {
+      var span = document.getElementById(`${algo}-inner`);
+      span.innerHTML = "";
+    }
   }
 }
 

@@ -49,6 +49,10 @@ class PriorityQueue {
     return this.items.shift();
   }
 
+  empty() {
+    this.items = [];
+  }
+
   isEmpty() {
     // return true if the queue is empty.
     return this.items.length == 0;
@@ -341,13 +345,11 @@ function HandleResets(elem) {
 
 function pickAlgo(elem) {
   var itemClicked = elem.id;
-  //var innerSpan = document.getElementById(`${itemClicked}-inner`);
   var child = document.getElementById(`${itemClicked}-SPAN`);
   var parent = document.getElementById("dropdown-btn-algo");
 
   for (var algo of grid.algorithms) {
     if (algo == itemClicked) {
-      //innerSpan.innerHTML = "&check;";
       grid.pickedAlgorithm = algo;
       parent.innerHTML = `${child.innerHTML}`;
     } else {
@@ -355,6 +357,7 @@ function pickAlgo(elem) {
       span.innerHTML = "";
     }
   }
+  console.log(grid.pickedAlgorithm);
 }
 
 function RedrawGrid(grid) {

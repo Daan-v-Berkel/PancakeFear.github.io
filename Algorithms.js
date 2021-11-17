@@ -19,6 +19,9 @@ function startAlgorithm(grid) {
     case "GreedyBestFirst":
       GreedyBestFirst(grid);
       break;
+    case "RandomWalk":
+      RandomWalk(grid);
+      break;
     default:
       Dijkstra(grid);
       break;
@@ -234,6 +237,106 @@ async function GreedyBestFirst(grid) {
         n.visited = true;
         n.SetHeuristicDistance(currentTarget);
         //DrawVisited(n);
+        nodesVisited++;
+        nodesVisitedInfo.innerHTML = `Nodes visited: ${nodesVisited}`;
+        prioQueue.enqueue(n, n.heuristicDistance);
+      }
+      if (drawSpeed) {
+        // only if the speed was not set to 'no delay', add a delay.
+        await sleep(drawSpeed / 10);
+        drawSpeed = drawSpeed * 0.999;
+      }
+      var e = performance.now();
+      timeTaken += parseFloat(e - st);
+      timeTakenInfo.innerHTML = `Time taken: ${timeTaken.toFixed(1)}ms`;
+    }
+    if (prioQueue.isEmpty()) {
+      // no more nodes to search and target was not found.
+      console.log("failure");
+      grid.algorithmFinished = true;
+      grid.active = false;
+      grid.succes = false;
+
+      var popup = document.getElementById("popup-algo-failed");
+      var closeBtn = document.getElementsByClassName("close")[1];
+      popup.style.display = "block";
+
+      window.onclick = function (event) {
+        if (event.target == popup || event.target == closeBtn) {
+          popup.style.display = "none";
+        }
+      };
+      return;
+    }
+  }
+}
+
+async function RandomWalk(grid) {
+  var nodesVisitedInfo = document.getElementById("info-1");
+  var nodesVisited = 0;
+  var timeTakenInfo = document.getElementById("info-3");
+  var timeTaken = 0.0;
+
+  nodesVisitedInfo.innerHTML = "Nodes visited: 0";
+  timeTakenInfo.innerHTML = "Running time: 0.0s";
+
+  grid.active = true; // makes sure no action can be taken while it is running
+  let start = grid.start;
+  let end = grid.end;
+  let path = [];
+  let drawSpeed = grid.speed;
+  var gridDiv = document.getElementById("grid");
+  path.push(start);
+  var nodesToVisit = Array.from(grid.waypoints); // this copies the array, because the array will be adapted in the algorithm.
+  nodesToVisit.push(end);
+  var startPoints = [start].concat(grid.waypoints);
+
+  for (var i = 0; i < nodesToVisit.length; i++) {
+    var currentStart = startPoints[i];
+    var currentTarget = nodesToVisit[i];
+
+    currentStart.distance = 0;
+    currentStart.totalDistance = 0;
+
+    var prioQueue = new PriorityQueue();
+    prioQueue.enqueue(currentStart, currentStart.distance);
+
+    while (!prioQueue.isEmpty()) {
+      var st = performance.now();
+      var currentNode = prioQueue.dequeue().element;
+      currentNode.visited = true;
+      if (currentNode.previousNode) {
+        DrawVisited(currentNode);
+      }
+      if (currentNode == currentTarget && currentTarget == end) {
+        //if we find the endnode, stop.
+        drawShortestPath(currentNode);
+        grid.algorithmFinished = true;
+        grid.active = false;
+        grid.succes = true;
+        return;
+      } else if (currentNode == currentTarget) {
+        // if we find the current target, break out and set the next target
+        await drawShortestPath(currentNode);
+        break;
+      }
+      var currentNeighbours = getAllNeighbours(currentNode);
+      if (currentNeighbours.length == 0) {
+        // if blocked,
+        currentNeighbours.push(currentNode.previousNode);
+      }
+
+      for (var ind in currentNeighbours) {
+        var rand = Math.floor(Math.random() * 10);
+        var n = currentNeighbours[ind];
+        if (!n) {
+          // if the only neighbour is the startnode
+          // no path is found
+          prioQueue.empty();
+          break;
+        }
+        n.SetHeuristicDistance(currentTarget);
+        n.heuristicDistance += rand + n.weight;
         nodesVisited++;
         nodesVisitedInfo.innerHTML = `Nodes visited: ${nodesVisited}`;
         prioQueue.enqueue(n, n.heuristicDistance);

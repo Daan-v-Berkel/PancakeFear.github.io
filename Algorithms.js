@@ -14,7 +14,7 @@ function startAlgorithm(grid) {
 
   switch (grid.pickedAlgorithm) {
     case "DIJKSTRA":
-      Dijkstra(grid); //TODO: make this be able to run the algorithm chosen
+      Dijkstra(grid);
       break;
     case "GreedyBestFirst":
       GreedyBestFirst(grid);
@@ -202,9 +202,18 @@ async function GreedyBestFirst(grid) {
       node.softReset();
       div.className = node.status;
     }
+    var vNodes = grid.findVisited();
+    for (var Node of vNodes) {
+      Node.softReset();
+    }
 
     var currentStart = startPoints[i];
     var currentTarget = nodesToVisit[i];
+
+    currentStart.visited = true;
+    currentStart.distance = 0;
+    currentStart.totalDistance = 0;
+
     currentStart.SetHeuristicDistance(currentTarget);
 
     var prioQueue = new PriorityQueue();
@@ -292,9 +301,21 @@ async function RandomWalk(grid) {
   var startPoints = [start].concat(grid.waypoints);
 
   for (var i = 0; i < nodesToVisit.length; i++) {
+    var nodesToClearO = gridDiv.getElementsByClassName("visited");
+    var nodesToClear = Array.from(nodesToClearO); // because the algorithm runs multiple times in case of waypoints
+    for (var index = 0; index < nodesToClear.length; index++) {
+      // this clears the 'visited = true' attribute from nodes.
+      var div = nodesToClear[index]; //else the algorithm skips earlier visited nodes.
+      var id = div.id;
+      var node = grid.getNode(id);
+      node.softReset();
+      div.className = node.status;
+    }
+
     var currentStart = startPoints[i];
     var currentTarget = nodesToVisit[i];
 
+    currentStart.visited = true;
     currentStart.distance = 0;
     currentStart.totalDistance = 0;
 

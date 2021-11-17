@@ -59,6 +59,20 @@ class Grid {
     return nodesFound;
   }
 
+  findVisited() {
+    var nodesFound = [];
+
+    for (var r in this.nodes) {
+      for (var n in this.nodes[r]) {
+        var node = this.nodes[r][n];
+        if (node.visited) {
+          nodesFound.push(node);
+        }
+      }
+    }
+    return nodesFound;
+  }
+
   findAndResetAll(status) {
     // all with this status that is.
     for (var r in this.nodes) {

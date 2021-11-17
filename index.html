@@ -25,7 +25,18 @@
 
 <body onload="createGrid()" onmouseup="mouseUpHandler()">
     <div class="header">
-      <button type="button" class="header-btn" onclick="startAlgorithm(grid)">Start</button>
+      <button type="button" class="header-btn" onclick="startAlgorithm(grid)">Start searching!</button>
+      <div class="dropdown-box">
+        <button class="header-btn" id="dropdown-btn-algo">Dijkstra's</button>
+        <div class="dropdown-content">
+          <span class="dropdown-select reset" id="DIJKSTRA" onclick="pickAlgo(this)">
+            <p id="DIJKSTRA-SPAN">Dijkstra's</p><span id="DIJKSTRA-inner">&check;</span>
+          </span>
+          <span class="dropdown-select reset"  id="GreedyBestFirst" onclick="pickAlgo(this)">
+            <p id="GreedyBestFirst-SPAN">Greedy Best-First</p><span id="GreedyBestFirst-inner"></span>
+          </span>
+        </div>
+      </div>
       <div class="dropdown-box">
         <button class="header-btn" id="dropdown-btn">Speed: fast</button>
         <div class="dropdown-content">
@@ -57,17 +68,6 @@
         </div>
       </div>
       <button type="button" class="header-btn" onclick="Maze()">Generate maze</button>
-      <div class="dropdown-box">
-        <button class="header-btn" id="dropdown-btn-algo">Algorithm: Dijkstra's</button>
-        <div class="dropdown-content">
-          <span class="dropdown-select reset" id="DIJKSTRA" onclick="pickAlgo(this)">
-            <p id="DIJKSTRA-SPAN">Dijkstra's</p><span id="DIJKSTRA-inner">&check;</span>
-          </span>
-          <span class="dropdown-select reset"  id="ASTAR" onclick="pickAlgo(this)">
-            <p id="ASTAR-SPAN">A*</p><span id="ASTAR-inner"></span>
-          </span>
-        </div>
-      </div>
       <!-- <button type="button" class="header-btn" onclick="DirectedGuess(grid)">directed</button> -->
       <button id="popup-btn" class="header-btn" onclick="ShowInstructions()">How to use?</button>
         <div id="popup" class="popup-instructions"  onclick="CloseWindow(this)">
@@ -111,6 +111,11 @@
         <div name="shortest" class="explanation node shortest"></div><label for="shortest">shortest path</label>
         
       </div>
+      <span id="running-info-container">
+        <span class="running-info" id="info-1"></span>
+        <span class="running-info" id="info-3"></span>
+        <span class="running-info" id="info-2"></span>
+      </span>
         <div id='grid'>
             
         </div>

@@ -18,7 +18,7 @@ class Grid {
     this.weightNumber = 3;
     this.algorithmFinished = false;
     this.succes = false;
-    this.algorithms = ["DIJKSTRA", "ASTAR"];
+    this.algorithms = ["DIJKSTRA", "GreedyBestFirst"];
     this.pickedAlgorithm = "DIJKSTRA";
   }
   // gets a node from the created nodes in the grid

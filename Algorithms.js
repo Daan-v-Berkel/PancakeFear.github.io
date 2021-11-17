@@ -9,12 +9,15 @@ function startAlgorithm(grid) {
     grid.softReset(); //reset things like visited nodes and shortest path.
   }
 
+  var shortestpathInfo = document.getElementById("info-2");
+  shortestpathInfo.innerHTML = "Nodes in path: 0";
+
   switch (grid.pickedAlgorithm) {
     case "DIJKSTRA":
       Dijkstra(grid); //TODO: make this be able to run the algorithm chosen
       break;
-    case "ASTAR":
-      Astar(grid);
+    case "GreedyBestFirst":
+      GreedyBestFirst(grid);
       break;
     default:
       Dijkstra(grid);
@@ -24,6 +27,13 @@ function startAlgorithm(grid) {
 //TODO: add more algorithms to choose from.
 
 async function Dijkstra(grid) {
+  var nodesVisitedInfo = document.getElementById("info-1");
+  var nodesVisited = 0;
+  var timeTakenInfo = document.getElementById("info-3");
+  var timeTaken = 0.0;
+
+  nodesVisitedInfo.innerHTML = "Nodes visited: 0";
+  timeTakenInfo.innerHTML = "Running time: 0.0s";
   // pretty obvious.. made into async for the purpose of delaying by the drawingspeed.
   grid.active = true; // makes sure no action can be taken while it is running
   let start = grid.start;
@@ -59,7 +69,7 @@ async function Dijkstra(grid) {
 
     while (!priorityQueue.isEmpty()) {
       // if there is elements in the queue, there is still nodes to search.
-
+      var st = performance.now();
       var currentNode = priorityQueue.dequeue().element;
       if (currentNode == currentTarget && currentTarget == end) {
         //if we find the endnode, stop.
@@ -80,6 +90,8 @@ async function Dijkstra(grid) {
         var n = currentNeighbours[ind];
         n.visited = true;
         DrawVisited(n);
+        nodesVisited++;
+        nodesVisitedInfo.innerHTML = `Nodes visited: ${nodesVisited}`;
         priorityQueue.enqueue(n, n.totalDistance);
       }
       if (drawSpeed) {
@@ -87,6 +99,9 @@ async function Dijkstra(grid) {
         await sleep(drawSpeed / 10);
         drawSpeed = drawSpeed * 0.999;
       }
+      var e = performance.now();
+      timeTaken += parseFloat(e - st);
+      timeTakenInfo.innerHTML = `Time taken: ${timeTaken.toFixed(1)}ms`;
     }
     if (priorityQueue.isEmpty()) {
       // no more nodes to search and target was not found.
@@ -153,7 +168,15 @@ function Tester(grid) {
   }
 }
 
-async function Astar(grid) {
+async function GreedyBestFirst(grid) {
+  var nodesVisitedInfo = document.getElementById("info-1");
+  var nodesVisited = 0;
+  var timeTakenInfo = document.getElementById("info-3");
+  var timeTaken = 0.0;
+
+  nodesVisitedInfo.innerHTML = "Nodes visited: 0";
+  timeTakenInfo.innerHTML = "Running time: 0.0s";
+
   grid.active = true; // makes sure no action can be taken while it is running
   let start = grid.start;
   let end = grid.end;
@@ -185,6 +208,7 @@ async function Astar(grid) {
     prioQueue.enqueue(currentStart, currentStart.heuristicDistance);
 
     while (!prioQueue.isEmpty()) {
+      var st = performance.now();
       // if there is elements in the queue, there is still nodes to search.
 
       var currentNode = prioQueue.dequeue().element;
@@ -210,6 +234,8 @@ async function Astar(grid) {
         n.visited = true;
         n.SetHeuristicDistance(currentTarget);
         //DrawVisited(n);
+        nodesVisited++;
+        nodesVisitedInfo.innerHTML = `Nodes visited: ${nodesVisited}`;
         prioQueue.enqueue(n, n.heuristicDistance);
       }
       if (drawSpeed) {
@@ -217,6 +243,9 @@ async function Astar(grid) {
         await sleep(drawSpeed / 10);
         drawSpeed = drawSpeed * 0.999;
       }
+      var e = performance.now();
+      timeTaken += parseFloat(e - st);
+      timeTakenInfo.innerHTML = `Time taken: ${timeTaken.toFixed(1)}ms`;
     }
     if (prioQueue.isEmpty()) {
       // no more nodes to search and target was not found.

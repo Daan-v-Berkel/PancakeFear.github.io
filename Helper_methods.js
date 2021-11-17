@@ -207,6 +207,8 @@ function DrawVisited(node) {
 async function drawShortestPath(endNode) {
   // every node remembers the previous node, this will form a path of
   // how the algorithm found the target.
+  var numberOfNodes = 0;
+  var numberOfNodesInfo = document.getElementById("info-2");
   var current = endNode.previousNode;
   var ls = [];
   while (current.previousNode) {
@@ -214,6 +216,8 @@ async function drawShortestPath(endNode) {
     current = current.previousNode;
   }
   while (ls.length) {
+    numberOfNodes++;
+    numberOfNodesInfo.innerHTML = `Nodes in path: ${numberOfNodes}`;
     var node = ls.pop();
     var id = node.id;
     var elem = document.getElementById(id);
@@ -337,15 +341,15 @@ function HandleResets(elem) {
 
 function pickAlgo(elem) {
   var itemClicked = elem.id;
-  var innerSpan = document.getElementById(`${itemClicked}-inner`);
+  //var innerSpan = document.getElementById(`${itemClicked}-inner`);
   var child = document.getElementById(`${itemClicked}-SPAN`);
   var parent = document.getElementById("dropdown-btn-algo");
 
   for (var algo of grid.algorithms) {
     if (algo == itemClicked) {
-      innerSpan.innerHTML = "&check;";
+      //innerSpan.innerHTML = "&check;";
       grid.pickedAlgorithm = algo;
-      parent.innerHTML = `Algorithm: ${child.innerHTML}`;
+      parent.innerHTML = `${child.innerHTML}`;
     } else {
       var span = document.getElementById(`${algo}-inner`);
       span.innerHTML = "";
